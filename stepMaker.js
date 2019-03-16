@@ -22,8 +22,11 @@ function makeStep(choosenOption){
     }  
   }
   else{
-    
-    if(mapa[endpoint.x/10][endpoint.y/10] == 0)
+    if(mapa[endpoint.x/20][endpoint.y/20] == 2)
+    {
+
+    }
+    else if(mapa[endpoint.x/20][endpoint.y/20] == 0)
     {
       newStep = stepOut(endpoint,choosenOption);
       startPoint = endpoint;
@@ -49,28 +52,28 @@ function stepOut(endpoint,value){
   var point={x:0,y:0};
   switch(value) {
     case 1:
-      point = {x:endpoint.x,y:endpoint.y+10};
+      point = {x:endpoint.x,y:endpoint.y+20};
       break;
     case 2:
-      point = {x:endpoint.x-10,y:endpoint.y+10};
+      point = {x:endpoint.x-20,y:endpoint.y+20};
       break;
     case 3:
-      point = {x:endpoint.x-10,y:endpoint.y};
+      point = {x:endpoint.x-20,y:endpoint.y};
       break;
     case 4:
-      point = {x:endpoint.x-10,y:endpoint.y-10};
+      point = {x:endpoint.x-20,y:endpoint.y-20};
       break;
     case 5:
-      point = {x:endpoint.x,y:endpoint.y-10};
+      point = {x:endpoint.x,y:endpoint.y-20};
       break;
     case 6:
-      point = {x:endpoint.x+10,y:endpoint.y-10};
+      point = {x:endpoint.x+20,y:endpoint.y-20};
       break;
     case 7:
-      point = {x:endpoint.x+10,y:endpoint.y};
+      point = {x:endpoint.x+20,y:endpoint.y};
       break;
     case 8:
-      point = {x:endpoint.x+10,y:endpoint.y+10};
+      point = {x:endpoint.x+20,y:endpoint.y+20};
       break;
   }
   return point;  
