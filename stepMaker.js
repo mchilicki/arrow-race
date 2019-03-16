@@ -15,57 +15,57 @@ var first = null;
 if(first == null || first != false)
   first = true;
 
-function makeStep(choosenOption){
-  if(first){    
+function makeStep(choosenOption){ 
+  if(first){     
     startPoint = arrowStartPoint;
     endpoint = arrowEndPoint;
-    lastStep = {x: arrowStartPoint.x - arrowEndPoint.x , y: arrowStartPoint.y - arrowEndPoint.y };
-    newStep = step(endpoint,choosenOption,lastStep);
+    lastStep = { x: arrowStartPoint.x  - arrowEndPoint.x, y: arrowStartPoint.y  - arrowEndPoint.y } ;
+    newStep = step(endpoint, choosenOption, lastStep);
     first = false;  
     startPoint = endpoint;
     endpoint = newStep;
-    lastStep = {x:endpoint.x-startPoint.x, y:startPoint.y-endpoint.y};     
-  }
-  else{
-    newStep = step(endpoint,choosenOption,lastStep);
+    lastStep = { x:endpoint.x - startPoint.x, y:startPoint.y - endpoint.y} ;     
+  } 
+  else{ 
+    newStep = step(endpoint, choosenOption, lastStep);
     startPoint = endpoint;
     endpoint = newStep;
-    lastStep = {x:endpoint.x-startPoint.x, y:startPoint.y-endpoint.y};    
-  }
-  return { startPoint: startPoint, endPoint: endpoint };
-}
+    lastStep = { x:endpoint.x - startPoint.x, y:startPoint.y - endpoint.y} ;    
+  } 
+  return {  startPoint: startPoint, endPoint: endpoint } ;
+} 
 
-function step(endpoint,value,lastStep){
-  var point={x:0,y:0};
-  switch(value) {
+function step(endpoint, value, lastStep){ 
+  var point={ x:0, y:0} ;
+  switch(value) { 
     case 1:
-      if(!first) {
-        point = {x:endpoint.x+lastStep.x,y:endpoint.y-lastStep.y+ minimumStep};
-      }
+      if(!first) { 
+        point = { x:endpoint.x + lastStep.x, y:endpoint.y - lastStep.y + minimumStep} ;
+      } 
       break;
     case 2:
-      point = {x:endpoint.x+lastStep.x- minimumStep,y:endpoint.y-lastStep.y+ minimumStep};
+      point = { x:endpoint.x + lastStep.x - minimumStep, y:endpoint.y - lastStep.y + minimumStep} ;
       break;
     case 3:
-      point = {x:endpoint.x+lastStep.x- minimumStep,y:endpoint.y-lastStep.y};
+      point = { x:endpoint.x + lastStep.x - minimumStep, y:endpoint.y - lastStep.y} ;
       break;
     case 4:
-      point = {x:endpoint.x+lastStep.x- minimumStep,y:endpoint.y-lastStep.y- minimumStep};
+      point = { x:endpoint.x + lastStep.x - minimumStep, y:endpoint.y - lastStep.y - minimumStep} ;
       break;
     case 5:
-      point = {x:endpoint.x+lastStep.x,y:endpoint.y-lastStep.y- minimumStep};
+      point = { x:endpoint.x + lastStep.x, y:endpoint.y - lastStep.y - minimumStep} ;
       break;
     case 6:
-      point = {x:endpoint.x+lastStep.x+ minimumStep,y:endpoint.y-lastStep.y-minimumStep};
+      point = { x:endpoint.x + lastStep.x + minimumStep, y:endpoint.y - lastStep.y - minimumStep} ;
       break;
     case 7:
-      point = {x:endpoint.x+lastStep.x+ minimumStep,y:endpoint.y-lastStep.y};
+      point = { x:endpoint.x + lastStep.x + minimumStep, y:endpoint.y - lastStep.y} ;
       break;
     case 8:
-      point = {x:endpoint.x+lastStep.x+ minimumStep,y:endpoint.y-lastStep.y+ minimumStep};
+      point = { x:endpoint.x + lastStep.x + minimumStep, y:endpoint.y - lastStep.y + minimumStep} ;
       break;
-  }
+  } 
   return point;  
-};
+} ;
 
   
