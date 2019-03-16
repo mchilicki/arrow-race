@@ -9,6 +9,7 @@ const arrowEndPoint = {
 }
 
 const minimumStep = 10;
+const importantDotColor = "red";
 
 var controller;
 var choosenOption;
@@ -43,21 +44,30 @@ function getChoosenOption(valueFromLuna)
         choosenOption = 1;
     return choosenOption;
 }
+
+function drawAllPoints(ctx){
+    const lastFromToWhere = stepsHistory[stepsHistory.length - 1];
+    const lastStepTemp = {
+        x:lastFromToWhere.endPoint.x-lastFromToWhere.startPoint.x, 
+        y:lastFromToWhere.startPoint.y-lastFromToWhere.endPoint.y
+    }; 
+    var currentPossibleSteps = getPossibleSteps(lastFromToWhere.endPoint, lastStepTemp);
+    drawPoints(ctx, currentPossibleSteps);
+    var currentChoosenStep = step(lastFromToWhere.endPoint, choosenOption, lastStepTemp);
+    drawImportantPoint(ctx, currentChoosenStep.x, currentChoosenStep.y, importantDotColor); 
+}
+
 $(document).ready(function() {    
     var c = document.getElementById("gridCanvas");
     var ctx = c.getContext("2d");
     drawGrid(ctx, 800, 600);
     drawGridArrow(ctx, arrowStartPoint.x, arrowStartPoint.y, arrowEndPoint.x, arrowEndPoint.y);
+    stepsHistory.push({startPoint: arrowStartPoint, endPoint: arrowEndPoint});
     controller = new EGZOController();
     controller.onvalue = function(valueFromLuna)
     {        
         choosenOption = getChoosenOption(valueFromLuna);
-        // const lastStepTemp = {
-        //     x:fromToWhere.endPoint.x-fromToWhere.startPoint.x, 
-        //     y:fromToWhere.startPoint.y-fromToWhere.endPoint.y
-        // }; 
-        // var currentPossibleSteps = getPossibleSteps(fromToWhere[fromToWhere.length - 1], lastStepTemp);
-        // drawPoints(ctx, currentPossibleSteps);
+        drawAllPoints(ctx);
         if (previousChoosenOption == choosenOption) {
             timesPreviousChoosenOptionWasChoosen++;
         } else {
