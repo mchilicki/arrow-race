@@ -1,6 +1,6 @@
 const arrowStartPoint = {
     x: 40,
-    y: 400,
+    y: 400
 }
 
 const arrowEndPoint = {
