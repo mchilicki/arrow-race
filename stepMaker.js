@@ -26,7 +26,7 @@ function makeStep(choosenOption){
     {
 
     }
-    else if(mapa[endpoint.x/minimumStep][endpoint.y/minimumStep] == 0)
+    else if(mapa[endpoint.y/minimumStep][endpoint.x/minimumStep] == 0)
     {
       newStep = stepOut(endpoint,choosenOption);
       startPoint = endpoint;
