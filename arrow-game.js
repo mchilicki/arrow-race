@@ -1,11 +1,11 @@
 const arrowStartPoint = {
-    x: 40,
-    y: 400
+    x: 100,
+    y: 600
 }
 
 const arrowEndPoint = {
-    x: 40,
-    y: 380,
+    x: 100,
+    y: 580,
 }
 
 const minimumStep = 20;
@@ -15,7 +15,6 @@ var controller;
 var choosenOption;
 
 var stepsHistory = [];
-stepsHistory.push({  })
 
 var previousChoosenOption;
 var timesPreviousChoosenOptionWasChoosen = 0;
@@ -52,7 +51,7 @@ function drawAllPoints(ctx){
         y:lastFromToWhere.startPoint.y-lastFromToWhere.endPoint.y
     }; 
     var currentPossibleSteps = getPossibleSteps(lastFromToWhere.endPoint, lastStepTemp);
-    drawPoints(ctx, currentPossibleSteps);
+    drawPoints(ctx, currentPossibleSteps, dotSize);
     var currentChoosenStep = step(lastFromToWhere.endPoint, choosenOption, lastStepTemp);
     drawImportantPoint(ctx, currentChoosenStep.x, currentChoosenStep.y, importantDotColor); 
 }
@@ -61,6 +60,7 @@ $(document).ready(function() {
     var c = document.getElementById("gridCanvas");
     var ctx = c.getContext("2d");
     drawGrid(ctx, 800, 600);
+    drawRoads(ctx, mapa);
     drawGridArrow(ctx, arrowStartPoint.x, arrowStartPoint.y, arrowEndPoint.x, arrowEndPoint.y);
     stepsHistory.push({startPoint: arrowStartPoint, endPoint: arrowEndPoint});
     controller = new EGZOController();
