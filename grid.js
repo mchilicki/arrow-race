@@ -41,12 +41,14 @@ function drawGridArrow(context, startX, startY, endX, endY) {
 }
 
 function drawPoint(context, x, y){
+    context.fillStyle = "black";
     const size = 1;
     context.fillRect(x, y, size, size);
 }
 
 function drawPoints(context, pointList){
-    for (var i = 0; i < pointList.lenght; i++){
+    context.fillStyle = "black";
+    for (var i = 0; i < pointList.length; i++){
         drawPoint(context, pointList[i].x, pointList[i].y);
     }
 }
