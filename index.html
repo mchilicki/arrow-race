@@ -9,6 +9,10 @@
         <script src='mapaJS.js'></script>   
     </head>
     <body>
-        <canvas id='gridCanvas'></canvas>
+        <div id="container">
+            <canvas id='gridCanvas'></canvas>
+            <label style="display: none; vertical-align: top;" id='winInfoLabel'>Wygrałeś!</label>
+            <button style="display: none; vertical-align: top;" id='winButton' onclick="window.location.reload();">Zagraj jeszcze raz</button>
+        </div>        
    </body>
 </html>

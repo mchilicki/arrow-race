@@ -24,11 +24,8 @@ function makeStep(choosenOption){
   else{
     if(mapa[endpoint.y/minimumStep][endpoint.x/minimumStep] == 2)
     {
-      var button = document.createElement("input");
-      button.type = "button";
-      button.value = "Zagraj jeszcze raz";
-      button.onclick = window.location.reload();
-      context.appendChild(button);
+      $("#winInfoLabel").show();
+      $("#winButton").show();
     }
     else if(mapa[endpoint.y/minimumStep][endpoint.x/minimumStep] == 0)
     {
