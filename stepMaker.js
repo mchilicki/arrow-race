@@ -24,7 +24,8 @@ function makeStep(choosenOption){
   else{
     if(mapa[endpoint.y/minimumStep][endpoint.x/minimumStep] == 2)
     {
-
+      $("#winInfoLabel").show();
+      $("#winButton").show();
     }
     else if(mapa[endpoint.y/minimumStep][endpoint.x/minimumStep] == 0)
     {
