@@ -22,14 +22,14 @@ function drawGrid(ctx, w, h) {
     var url = DOMURL.createObjectURL(svg);
     
     img.onload = function () {
-      ctx.drawImage(img, 0, 0);
-      DOMURL.revokeObjectURL(url);
+        ctx.drawImage(img, 0, 0);
+        DOMURL.revokeObjectURL(url);
     }
     img.src = url;
 }
 
-function drawGridArrow(context, startX, startY, endX, endY){
-    var headLenght = 10;
+function drawGridArrow(context, startX, startY, endX, endY) {
+    var headLenght = 7;
     var angle = Math.atan2(endY - startY, endX - startX);
     context.beginPath();
     context.moveTo(startX, startY);
