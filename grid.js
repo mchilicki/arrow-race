@@ -39,3 +39,20 @@ function drawGridArrow(context, startX, startY, endX, endY) {
     context.lineTo(endX - headLenght * Math.cos(angle + Math.PI/6), endY - headLenght * Math.sin(angle + Math.PI/6));
     context.stroke();
 }
+
+function drawPoint(context, x, y){
+    const size = 1;
+    context.fillRect(x, y, size, size);
+}
+
+function drawPoints(context, pointList){
+    for (var i = 0; i < pointList.lenght; i++){
+        drawPoint(context, pointList[i].x, pointList[i].y);
+    }
+}
+
+function drawImportantPoint(context, x, y, color) {
+    context.fillStyle = color;
+    const size = 1;
+    context.fillRect(x, y, size, size);
+}

@@ -45,6 +45,19 @@ function makeStep(choosenOption){
   return { startPoint: startPoint, endPoint: endpoint };
 }
 
+function getPossibleSteps(endpoint, lastStep){
+  return [
+    {x:endpoint.x+lastStep.x,y:endpoint.y-lastStep.y+ minimumStep},
+    { x:endpoint.x + lastStep.x - minimumStep, y:endpoint.y - lastStep.y + minimumStep},
+    { x:endpoint.x + lastStep.x - minimumStep, y:endpoint.y - lastStep.y},
+    { x:endpoint.x + lastStep.x - minimumStep, y:endpoint.y - lastStep.y - minimumStep} ,
+    { x:endpoint.x + lastStep.x, y:endpoint.y - lastStep.y - minimumStep} ,
+    { x:endpoint.x + lastStep.x + minimumStep, y:endpoint.y - lastStep.y - minimumStep} ,
+    { x:endpoint.x + lastStep.x + minimumStep, y:endpoint.y - lastStep.y} ,
+    { x:endpoint.x + lastStep.x + minimumStep, y:endpoint.y - lastStep.y + minimumStep} ,
+  ]
+}
+
 function step(endpoint, value, lastStep){ 
   var point={ x:0, y:0} ;
   switch(value) { 

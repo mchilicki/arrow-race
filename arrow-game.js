@@ -13,6 +13,9 @@ const minimumStep = 10;
 var controller;
 var choosenOption;
 
+var stepsHistory = [];
+stepsHistory.push({  })
+
 var previousChoosenOption;
 var timesPreviousChoosenOptionWasChoosen = 0;
 
@@ -49,6 +52,12 @@ $(document).ready(function() {
     controller.onvalue = function(valueFromLuna)
     {        
         choosenOption = getChoosenOption(valueFromLuna);
+        // const lastStepTemp = {
+        //     x:fromToWhere.endPoint.x-fromToWhere.startPoint.x, 
+        //     y:fromToWhere.startPoint.y-fromToWhere.endPoint.y
+        // }; 
+        // var currentPossibleSteps = getPossibleSteps(fromToWhere[fromToWhere.length - 1], lastStepTemp);
+        // drawPoints(ctx, currentPossibleSteps);
         if (previousChoosenOption == choosenOption) {
             timesPreviousChoosenOptionWasChoosen++;
         } else {
@@ -58,6 +67,7 @@ $(document).ready(function() {
         if (timesPreviousChoosenOptionWasChoosen >= minimumTimesPreviousChoosenOptionNeedToBeChoosen) {
             timesPreviousChoosenOptionWasChoosen = 0;
             var fromToWhere = makeStep(choosenOption);
+            stepsHistory.push(fromToWhere);
             drawGridArrow(ctx, fromToWhere.startPoint.x, fromToWhere.startPoint.y, 
                 fromToWhere.endPoint.x, fromToWhere.endPoint.y);
         }
