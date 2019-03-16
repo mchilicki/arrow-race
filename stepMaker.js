@@ -10,6 +10,8 @@
 // The goal of the example is to demonstrate the modularity
 // of the engine and the ability to only include the components
 // you actually need.
+
+
 var first = null;
 
 if(first == null || first != false)
@@ -32,18 +34,59 @@ function makeStep(choosenOption){
     }  
   }
   else{
-    newStep = step(endpoint,choosenOption,lastStep);
-    if(newStep.x == -1 || newStep.y == -1){
-      
+    
+    if(mapa[endpoint.x/10][endpoint.y/10] == 0)
+    {
+      newStep = stepOut(endpoint,choosenOption);
+      startPoint = endpoint;
+      endpoint = newStep;
+      lastStep = {x:endpoint.x-startPoint.x, y:startPoint.y-endpoint.y};  
     }
     else{
-    startPoint = endpoint;
-    endpoint = newStep;
-    lastStep = {x:endpoint.x-startPoint.x, y:startPoint.y-endpoint.y};    
+      newStep = step(endpoint,choosenOption,lastStep);
+      if(newStep.x == -1 || newStep.y == -1 || (newStep.x == endpoint.x && newStep.y == endpoint.y)){
+        
+      }
+      else{ 
+      startPoint = endpoint;
+      endpoint = newStep;
+      lastStep = {x:endpoint.x-startPoint.x, y:startPoint.y-endpoint.y};    
+      }
     }
   }
   return { startPoint: startPoint, endPoint: endpoint };
 }
+
+function stepOut(endpoint,value){
+  var point={x:0,y:0};
+  switch(value) {
+    case 1:
+      point = {x:endpoint.x,y:endpoint.y+10};
+      break;
+    case 2:
+      point = {x:endpoint.x-10,y:endpoint.y+10};
+      break;
+    case 3:
+      point = {x:endpoint.x-10,y:endpoint.y};
+      break;
+    case 4:
+      point = {x:endpoint.x-10,y:endpoint.y-10};
+      break;
+    case 5:
+      point = {x:endpoint.x,y:endpoint.y-10};
+      break;
+    case 6:
+      point = {x:endpoint.x+10,y:endpoint.y-10};
+      break;
+    case 7:
+      point = {x:endpoint.x+10,y:endpoint.y};
+      break;
+    case 8:
+      point = {x:endpoint.x+10,y:endpoint.y+10};
+      break;
+  }
+  return point;  
+};
 
 function step(endpoint,value,lastStep){
   var point={x:0,y:0};
