@@ -1,15 +1,22 @@
-var arrowStartPoint = {
+const arrowStartPoint = {
     x: 50,
     y: 400,
 }
 
-var arrowEndPoint = {
+const arrowEndPoint = {
     x: 50,
     y: 390,
 }
 
+const minimumStep = 10;
+
 var controller;
 var choosenOption;
+
+var previousChoosenOption;
+var timesPreviousChoosenOptionWasChoosen = 0;
+
+var minimumTimesPreviousChoosenOptionNeedToBeChoosen = 50;
 
 $(document).ready(function() {    
     var c = document.getElementById("gridCanvas");
@@ -37,5 +44,17 @@ $(document).ready(function() {
             choosenOption = 8;
         else
             choosenOption = 1;
+        if (previousChoosenOption == choosenOption) {
+            timesPreviousChoosenOptionWasChoosen++;
+        } else {
+            previousChoosenOption = choosenOption;
+            timesPreviousChoosenOptionWasChoosen = 0;
+        }        
+        if (timesPreviousChoosenOptionWasChoosen >= minimumTimesPreviousChoosenOptionNeedToBeChoosen) {
+            timesPreviousChoosenOptionWasChoosen = 0;
+            var fromToWhere = makeStep(choosenOption);
+            drawGridArrow(ctx, fromToWhere.startPoint.x, fromToWhere.startPoint.y, 
+                fromToWhere.endPoint.x, fromToWhere.endPoint.y);
+        }
     };
 });
