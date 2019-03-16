@@ -1,14 +1,14 @@
 const arrowStartPoint = {
-    x: 50,
-    y: 550,
+    x: 40,
+    y: 400
 }
 
 const arrowEndPoint = {
-    x: 50,
-    y: 540,
+    x: 40,
+    y: 380,
 }
 
-const minimumStep = 10;
+const minimumStep = 20;
 const importantDotColor = "red";
 
 var controller;
