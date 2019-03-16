@@ -1,4 +1,4 @@
-const dotSize = 1.5;
+const dotSize = 4.3;
 
 
 function drawGrid(ctx, w, h) {
@@ -7,8 +7,8 @@ function drawGrid(ctx, w, h) {
     
     var data = '<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"> \
         <defs> \
-            <pattern id="smallGrid" width="10" height="10" patternUnits="userSpaceOnUse"> \
-                <path d="M 10 0 L 0 0 0 10" fill="none" stroke="gray" stroke-width="0.5" /> \
+            <pattern id="smallGrid" width="20" height="20" patternUnits="userSpaceOnUse"> \
+                <path d="M 20 0 L 0 0 0 20" fill="none" stroke="gray" stroke-width="0.5" /> \
             </pattern> \
             <pattern id="grid" width="100" height="100" patternUnits="userSpaceOnUse"> \
                 <rect width="100" height="100" fill="url(#smallGrid)" /> \
@@ -32,9 +32,10 @@ function drawGrid(ctx, w, h) {
 }
 
 function drawGridArrow(context, startX, startY, endX, endY) {
-    var headLenght = 7;
+    var headLenght = 8;
     var angle = Math.atan2(endY - startY, endX - startX);
     context.beginPath();
+    context.lineWidth = 2.7;
     context.moveTo(startX, startY);
     context.lineTo(endX, endY);
     context.lineTo(endX - headLenght * Math.cos(angle - Math.PI/6), endY - headLenght * Math.sin(angle - Math.PI/6));
@@ -45,7 +46,7 @@ function drawGridArrow(context, startX, startY, endX, endY) {
 
 function drawPoint(context, x, y){
     context.fillStyle = "black";
-    context.fillRect(x, y, dotSize, dotSize);
+    context.fillRect(x - dotSize / 2, y - dotSize / 2, dotSize, dotSize);
 }
 
 function drawPoints(context, pointList){
@@ -57,5 +58,5 @@ function drawPoints(context, pointList){
 
 function drawImportantPoint(context, x, y, color) {
     context.fillStyle = color;
-    context.fillRect(x, y, dotSize, dotSize);
+    context.fillRect(x - dotSize / 2, y - dotSize / 2, dotSize, dotSize);
 }
