@@ -24,9 +24,13 @@ function makeStep(choosenOption){
   else{
     if(mapa[endpoint.x/minimumStep][endpoint.y/minimumStep] == 2)
     {
-
+      var button = document.createElement("input");
+      button.type = "button";
+      button.value = "Zagraj jeszcze raz";
+      button.onclick = window.location.reload();
+      context.appendChild(button);
     }
-    else if(mapa[endpoint.x/minimumStep][endpoint.y/minimumStep] == 0)
+    else if(mapa[endpoint.y/minimumStep][endpoint.x/minimumStep] == 0)
     {
       newStep = stepOut(endpoint,choosenOption);
       startPoint = endpoint;

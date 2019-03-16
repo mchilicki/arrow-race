@@ -1,11 +1,11 @@
 const arrowStartPoint = {
-    x: 100,
-    y: 600
+    x: 300,
+    y: 300
 }
 
 const arrowEndPoint = {
-    x: 100,
-    y: 580,
+    x: 300,
+    y: 280,
 }
 
 const minimumStep = 20;
