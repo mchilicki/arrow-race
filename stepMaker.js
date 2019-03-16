@@ -1,15 +1,3 @@
-// # Quintus moving ball example
-//
-// [Run the example](../quintus/examples/ball/index.html)
-//
-// This is one of the simplest possible examples of using 
-// Quintus that doesn't use the scene/stage functionality, 
-// but rather just creates a single sprite and steps and 
-// draws that sprite
-//
-// The goal of the example is to demonstrate the modularity
-// of the engine and the ability to only include the components
-// you actually need.
 
 
 var first = null;

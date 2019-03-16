@@ -1,3 +1,6 @@
+const dotSize = 1.5;
+
+
 function drawGrid(ctx, w, h) {
     ctx.canvas.width  = w;
     ctx.canvas.height = h;
@@ -41,18 +44,18 @@ function drawGridArrow(context, startX, startY, endX, endY) {
 }
 
 function drawPoint(context, x, y){
-    const size = 1;
-    context.fillRect(x, y, size, size);
+    context.fillStyle = "black";
+    context.fillRect(x, y, dotSize, dotSize);
 }
 
 function drawPoints(context, pointList){
-    for (var i = 0; i < pointList.lenght; i++){
+    context.fillStyle = "black";
+    for (var i = 0; i < pointList.length; i++){
         drawPoint(context, pointList[i].x, pointList[i].y);
     }
 }
 
 function drawImportantPoint(context, x, y, color) {
     context.fillStyle = color;
-    const size = 1;
-    context.fillRect(x, y, size, size);
+    context.fillRect(x, y, dotSize, dotSize);
 }
