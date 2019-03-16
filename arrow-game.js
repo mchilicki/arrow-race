@@ -44,6 +44,19 @@ function getChoosenOption(valueFromLuna)
         choosenOption = 1;
     return choosenOption;
 }
+
+function drawAllPoints(ctx){
+    const lastFromToWhere = stepsHistory[stepsHistory.length - 1];
+    const lastStepTemp = {
+        x:lastFromToWhere.endPoint.x-lastFromToWhere.startPoint.x, 
+        y:lastFromToWhere.startPoint.y-lastFromToWhere.endPoint.y
+    }; 
+    var currentPossibleSteps = getPossibleSteps(lastFromToWhere.endPoint, lastStepTemp);
+    drawPoints(ctx, currentPossibleSteps);
+    var currentChoosenStep = step(lastFromToWhere.endPoint, choosenOption, lastStepTemp);
+    drawImportantPoint(ctx, currentChoosenStep.x, currentChoosenStep.y, importantDotColor); 
+}
+
 $(document).ready(function() {    
     var c = document.getElementById("gridCanvas");
     var ctx = c.getContext("2d");
@@ -54,15 +67,7 @@ $(document).ready(function() {
     controller.onvalue = function(valueFromLuna)
     {        
         choosenOption = getChoosenOption(valueFromLuna);
-        const lastFromToWhere = stepsHistory[stepsHistory.length - 1];
-        const lastStepTemp = {
-            x:lastFromToWhere.endPoint.x-lastFromToWhere.startPoint.x, 
-            y:lastFromToWhere.startPoint.y-lastFromToWhere.endPoint.y
-        }; 
-        var currentPossibleSteps = getPossibleSteps(lastFromToWhere.endPoint, lastStepTemp);
-        drawPoints(ctx, currentPossibleSteps);
-        var currentChoosenStep = step(lastFromToWhere.endPoint, choosenOption, lastStepTemp);
-        drawImportantPoint(ctx, currentChoosenStep.x, currentChoosenStep.y, importantDotColor);        
+        drawAllPoints(ctx);
         if (previousChoosenOption == choosenOption) {
             timesPreviousChoosenOptionWasChoosen++;
         } else {
