@@ -60,3 +60,16 @@ function drawImportantPoint(context, x, y, color) {
     context.fillStyle = color;
     context.fillRect(x - dotSize / 2, y - dotSize / 2, dotSize, dotSize);
 }
+
+function drawRoads(context, allMapPoints){
+    var pointListToDraw = [];
+    for (var row = 0; row < allMapPoints.length; row++){
+        for (var column = 0; column < allMapPoints[0].length; column++){
+            if (allMapPoints[row][column] == 0) {
+                pointListToDraw.push({x: column, y: row});
+            }
+        }
+    }
+    context.fillStyle = "grey";
+    drawPoints(context, pointListToDraw);
+}
