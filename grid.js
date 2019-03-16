@@ -1,5 +1,7 @@
 const dotSize = 4.3;
 
+const offroadDotSize = 2;
+
 
 function drawGrid(ctx, w, h) {
     ctx.canvas.width  = w;
@@ -44,15 +46,15 @@ function drawGridArrow(context, startX, startY, endX, endY) {
     context.stroke();
 }
 
-function drawPoint(context, x, y){
+function drawPoint(context, x, y, size){
     context.fillStyle = "black";
-    context.fillRect(x - dotSize / 2, y - dotSize / 2, dotSize, dotSize);
+    context.fillRect(x - size / 2, y - size / 2, size, size);
 }
 
-function drawPoints(context, pointList){
+function drawPoints(context, pointList, size){
     context.fillStyle = "black";
     for (var i = 0; i < pointList.length; i++){
-        drawPoint(context, pointList[i].x, pointList[i].y);
+        drawPoint(context, pointList[i].x, pointList[i].y, size);
     }
 }
 
@@ -66,10 +68,10 @@ function drawRoads(context, allMapPoints){
     for (var row = 0; row < allMapPoints.length; row++){
         for (var column = 0; column < allMapPoints[0].length; column++){
             if (allMapPoints[row][column] == 0) {
-                pointListToDraw.push({x: column, y: row});
+                pointListToDraw.push({x: column * minimumStep, y: row * minimumStep});
             }
         }
     }
     context.fillStyle = "grey";
-    drawPoints(context, pointListToDraw);
+    drawPoints(context, pointListToDraw, offroadDotSize);
 }
