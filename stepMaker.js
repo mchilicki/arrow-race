@@ -39,6 +39,8 @@ function makeStep(choosenOption){
       if(newStep.x == -1 || newStep.y == -1 || (newStep.x == endpoint.x && newStep.y == endpoint.y)){
         
       }
+      else if (newStep.x > (mapa[0].length-1)*minimumStep)
+        newStep.y = mapa[0].length*minimumStep-1;
       else{ 
       startPoint = endpoint;
       endpoint = newStep;
