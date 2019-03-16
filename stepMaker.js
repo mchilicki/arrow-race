@@ -13,62 +13,59 @@
 var first = null;
 
 if(first == null || first != false)
-first = true;
+  first = true;
 
-function makestep(value){
-  debugger;
+function makeStep(choosenOption){
   if(first){    
-    startPoint = {x:12,y:512};
-    endpoint = {x:12,y:511};
-    lastStep = {x:0,y:1};
-    newStep = step(endpoint,value,lastStep);
+    startPoint = arrowStartPoint;
+    endpoint = arrowEndPoint;
+    lastStep = {x: arrowStartPoint.x - arrowEndPoint.x , y: arrowStartPoint.y - arrowEndPoint.y };
+    newStep = step(endpoint,choosenOption,lastStep);
     first = false;  
     startPoint = endpoint;
     endpoint = newStep;
     lastStep = {x:endpoint.x-startPoint.x, y:startPoint.y-endpoint.y};     
   }
   else{
-    newStep = step(endpoint,value,lastStep);
+    newStep = step(endpoint,choosenOption,lastStep);
     startPoint = endpoint;
     endpoint = newStep;
     lastStep = {x:endpoint.x-startPoint.x, y:startPoint.y-endpoint.y};    
-    document.writeln("x: " + newStep.x);
-    document.writeln("y: " + newStep.y);
   }
+  return { startPoint: startPoint, endPoint: endpoint };
+}
 
-  function step(endpoint,value,lastStep){
-    var point={x:0,y:0};
-    switch(value)
-        {
-          case 1:
-          if(!first){
-          point = {x:endpoint.x+lastStep.x,y:endpoint.y-lastStep.y+1};
-          }
-          break;
-          case 2:
-          point = {x:endpoint.x+lastStep.x-1,y:endpoint.y-lastStep.y+1};
-          break;
-          case 3:
-          point = {x:endpoint.x+lastStep.x-1,y:endpoint.y-lastStep.y};
-          break;
-          case 4:
-          point = {x:endpoint.x+lastStep.x-1,y:endpoint.y-lastStep.y-1};
-          break;
-          case 5:
-          point = {x:endpoint.x+lastStep.x,y:endpoint.y-lastStep.y-1};
-          break;
-          case 6:
-          point = {x:endpoint.x+lastStep.x+1,y:endpoint.y-lastStep.y-1};
-          break;
-          case 7:
-          point = {x:endpoint.x+lastStep.x+1,y:endpoint.y-lastStep.y};
-          break;
-          case 8:
-          point = {x:endpoint.x+lastStep.x+1,y:endpoint.y-lastStep.y+1};
-          break;
-        }
-        return point;
+function step(endpoint,value,lastStep){
+  var point={x:0,y:0};
+  switch(value) {
+    case 1:
+      if(!first) {
+        point = {x:endpoint.x+lastStep.x,y:endpoint.y-lastStep.y+ minimumStep};
+      }
+      break;
+    case 2:
+      point = {x:endpoint.x+lastStep.x- minimumStep,y:endpoint.y-lastStep.y+ minimumStep};
+      break;
+    case 3:
+      point = {x:endpoint.x+lastStep.x- minimumStep,y:endpoint.y-lastStep.y};
+      break;
+    case 4:
+      point = {x:endpoint.x+lastStep.x- minimumStep,y:endpoint.y-lastStep.y- minimumStep};
+      break;
+    case 5:
+      point = {x:endpoint.x+lastStep.x,y:endpoint.y-lastStep.y- minimumStep};
+      break;
+    case 6:
+      point = {x:endpoint.x+lastStep.x+ minimumStep,y:endpoint.y-lastStep.y-minimumStep};
+      break;
+    case 7:
+      point = {x:endpoint.x+lastStep.x+ minimumStep,y:endpoint.y-lastStep.y};
+      break;
+    case 8:
+      point = {x:endpoint.x+lastStep.x+ minimumStep,y:endpoint.y-lastStep.y+ minimumStep};
+      break;
   }
+  return point;  
 };
 
   
