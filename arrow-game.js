@@ -8,43 +8,42 @@ const arrowEndPoint = {
     y: 580,
 }
 
+const numpadKeyboardKeys = [ 48, 49, 50, 51, 52, 53, 54, 55, 56, 57];
+
 const minimumStep = 20;
 const importantDotColor = "red";
 
-var controller;
-var choosenOption;
-
-var stepsHistory = [];
-
-var previousChoosenOption;
-var timesPreviousChoosenOptionWasChoosen = 0;
-
-var minimumTimesPreviousChoosenOptionNeedToBeChoosen = 50;
-
-function getChoosenOption(valueFromLuna)
+function getChoosenOption(keyboardInput)
 {
-    if (isBetweenLeftClosed(valueFromLuna, -1, -0.875))
-            choosenOption = 1;
-    else if (isBetweenLeftClosed(valueFromLuna, -0.875, -0.625))
-        choosenOption = 2;
-    else if (isBetweenLeftClosed(valueFromLuna, -0.625, -0.375))
-        choosenOption = 3;
-    else if(isBetweenLeftClosed(valueFromLuna, -0.375, -0.125))
-        choosenOption = 4;
-    else if (isBetweenLeftClosed(valueFromLuna, -0.125, 0.125))
-        choosenOption = 5;
-    else if (isBetweenLeftClosed(valueFromLuna, 0.125, 0.375))
-        choosenOption = 6;
-    else if (isBetweenLeftClosed(valueFromLuna, 0.375, 0.625))
-        choosenOption = 7;
-    else if (isBetweenLeftClosed(valueFromLuna, 0.625, 0.875))
-        choosenOption = 8;
-    else
+    var choosenOption = null;
+    if (keyboardInput.keyCode === numpadKeyboardKeys[2]) {
         choosenOption = 1;
+    }
+    else if (keyboardInput.keyCode === numpadKeyboardKeys[1]) {
+        choosenOption = 2;
+    }
+    else if (keyboardInput.keyCode == numpadKeyboardKeys[4]) {
+        choosenOption = 3;
+    }
+    else if (keyboardInput.keyCode == numpadKeyboardKeys[7]) {
+        choosenOption = 4;
+    }
+    else if (keyboardInput.keyCode == numpadKeyboardKeys[8]) {
+        choosenOption = 5;
+    }
+    else if (keyboardInput.keyCode == numpadKeyboardKeys[9]) {
+        choosenOption = 6;
+    }
+    else if (keyboardInput.keyCode == numpadKeyboardKeys[6]) {
+        choosenOption = 7;
+    }
+    else if (keyboardInput.keyCode == numpadKeyboardKeys[3]) {
+        choosenOption = 8;
+    }
     return choosenOption;
 }
 
-function drawAllPoints(ctx){
+function drawAllPoints(ctx, stepsHistory){
     const lastFromToWhere = stepsHistory[stepsHistory.length - 1];
     const lastStepTemp = {
         x:lastFromToWhere.endPoint.x-lastFromToWhere.startPoint.x, 
@@ -52,34 +51,29 @@ function drawAllPoints(ctx){
     }; 
     var currentPossibleSteps = getPossibleSteps(lastFromToWhere.endPoint, lastStepTemp);
     drawPoints(ctx, currentPossibleSteps, dotSize);
-    var currentChoosenStep = step(lastFromToWhere.endPoint, choosenOption, lastStepTemp);
-    drawImportantPoint(ctx, currentChoosenStep.x, currentChoosenStep.y, importantDotColor); 
+}
+
+function onKeyboardInput (context, stepsHistory) {
+    return function innerOnKeyboardInput (keyboardInput) {
+        const choosenOption = getChoosenOption(keyboardInput);
+        if (choosenOption != null){            
+            var fromToWhere = makeStep(choosenOption);
+            stepsHistory.push(fromToWhere);
+            drawGridArrow(context, fromToWhere.startPoint.x, fromToWhere.startPoint.y, 
+                fromToWhere.endPoint.x, fromToWhere.endPoint.y);
+            drawAllPoints(context, stepsHistory);
+        }        
+    }
 }
 
 $(document).ready(function() {    
     var c = document.getElementById("gridCanvas");
     var ctx = c.getContext("2d");
+    var stepsHistory = [];
     drawGrid(ctx, 800, 600);
     drawRoads(ctx, mapa);
     drawGridArrow(ctx, arrowStartPoint.x, arrowStartPoint.y, arrowEndPoint.x, arrowEndPoint.y);
     stepsHistory.push({startPoint: arrowStartPoint, endPoint: arrowEndPoint});
-    controller = new EGZOController();
-    controller.onvalue = function(valueFromLuna)
-    {        
-        choosenOption = getChoosenOption(valueFromLuna);
-        drawAllPoints(ctx);
-        if (previousChoosenOption == choosenOption) {
-            timesPreviousChoosenOptionWasChoosen++;
-        } else {
-            previousChoosenOption = choosenOption;
-            timesPreviousChoosenOptionWasChoosen = 0;
-        }        
-        if (timesPreviousChoosenOptionWasChoosen >= minimumTimesPreviousChoosenOptionNeedToBeChoosen) {
-            timesPreviousChoosenOptionWasChoosen = 0;
-            var fromToWhere = makeStep(choosenOption);
-            stepsHistory.push(fromToWhere);
-            drawGridArrow(ctx, fromToWhere.startPoint.x, fromToWhere.startPoint.y, 
-                fromToWhere.endPoint.x, fromToWhere.endPoint.y);
-        }
-    };
+    drawAllPoints(ctx, stepsHistory);    
+    document.addEventListener("keypress", (onKeyboardInput)(ctx, stepsHistory));
 });
