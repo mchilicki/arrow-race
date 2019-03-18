@@ -3,12 +3,13 @@ var first = null;
 if (first == null || first != false)
   	first = true;
 
-function makeStep(map, choosenOption) {
+function makeStep(map, choosenOption, settings) {
+	const minimumStep = settings.minimumStep;
 	if (first) {
 		startPoint = map.arrowStartPoint;
 		endpoint = map.arrowEndPoint;
 		lastStep = { x: map.arrowStartPoint.x - map.arrowEndPoint.x, y: map.arrowStartPoint.y - map.arrowEndPoint.y };
-		newStep = step(map, endpoint, choosenOption, lastStep);
+		newStep = step(map, endpoint, choosenOption, lastStep, settings);
 		if (newStep.x == -1 || newStep.y == -1) {
 
 		}
@@ -25,12 +26,12 @@ function makeStep(map, choosenOption) {
 			$("#winButton").show();
 		}
 		else if (map.level[endpoint.y / minimumStep][endpoint.x / minimumStep] == 0) {
-			newStep = stepOut(endpoint, choosenOption);
+			newStep = stepOut(endpoint, choosenOption, settings);
 			startPoint = endpoint;
 			endpoint = newStep;
 			lastStep = { x: endpoint.x - startPoint.x, y: startPoint.y - endpoint.y };
 		} else {
-			newStep = step(map, endpoint, choosenOption, lastStep);
+			newStep = step(map, endpoint, choosenOption, lastStep, settings);
 			if (newStep.x == -1 || newStep.y == -1 || (newStep.x == endpoint.x && newStep.y == endpoint.y)) {
 
 			}
@@ -47,7 +48,8 @@ function makeStep(map, choosenOption) {
   	return { startPoint: startPoint, endPoint: endpoint };
 }
 
-function stepOut(endpoint, value) {
+function stepOut(endpoint, value, settings) {
+	const minimumStep = settings.minimumStep;
 	var point = { x: 0, y: 0 };
 	switch (value) {
 		case 1:
@@ -78,7 +80,8 @@ function stepOut(endpoint, value) {
 	return point;
 };
 
-function getPossibleSteps(map, endpoint, lastStep) {
+function getPossibleSteps(map, endpoint, lastStep, settings) {
+	const minimumStep = settings.minimumStep;
 	if (map.level[endpoint.y / minimumStep][endpoint.x / minimumStep] != 0) {
 		return [
 			{ x: endpoint.x + lastStep.x, y: endpoint.y - lastStep.y + minimumStep },
@@ -103,7 +106,8 @@ function getPossibleSteps(map, endpoint, lastStep) {
 	]
 }
 
-function step(map, endpoint, value, lastStep) {
+function step(map, endpoint, value, lastStep, settings) {
+	const minimumStep = settings.minimumStep;
 	var point = { x: 0, y: 0 };
 	if (map.level[endpoint.y / minimumStep][endpoint.x / minimumStep] != 0) {
 		switch (value) {

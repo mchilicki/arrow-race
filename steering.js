@@ -29,15 +29,15 @@ function getChoosenOption(keyboardInput) {
     return choosenOption;
 }
 
-function onKeyboardInput(map, context, stepsHistory) {
+function onKeyboardInput(map, context, stepsHistory, settings) {
     return function innerOnKeyboardInput(keyboardInput) {
         const choosenOption = getChoosenOption(keyboardInput);
         if (choosenOption != null) {
-            var fromToWhere = makeStep(map, choosenOption);
+            var fromToWhere = makeStep(map, choosenOption, settings);
             stepsHistory.push(fromToWhere);
             drawArrow(context, fromToWhere.startPoint.x, fromToWhere.startPoint.y,
                 fromToWhere.endPoint.x, fromToWhere.endPoint.y);
-            drawAllPoints(map, context, stepsHistory);
+            drawPossiblePoints(map, context, stepsHistory, settings);
         }
     }
 }
