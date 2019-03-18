@@ -1,16 +1,14 @@
-
-
 var first = null;
 
 if(first == null || first != false)
   first = true;
 
-function makeStep(choosenOption){ 
+function makeStep(map, choosenOption){ 
   if(first){     
     startPoint = arrowStartPoint;
     endpoint = arrowEndPoint;
     lastStep = {x: arrowStartPoint.x - arrowEndPoint.x , y: arrowStartPoint.y - arrowEndPoint.y };
-    newStep = step(endpoint,choosenOption,lastStep);
+    newStep = step(map, endpoint,choosenOption,lastStep);
     if(newStep.x == -1 || newStep.y == -1){
       
     }
@@ -22,12 +20,12 @@ function makeStep(choosenOption){
     }  
   }
   else{
-    if(mapa[endpoint.y/minimumStep][endpoint.x/minimumStep] == 2)
+    if(map[endpoint.y/minimumStep][endpoint.x/minimumStep] == 2)
     {
       $("#winInfoLabel").show();
       $("#winButton").show();
     }
-    else if(mapa[endpoint.y/minimumStep][endpoint.x/minimumStep] == 0)
+    else if(map[endpoint.y/minimumStep][endpoint.x/minimumStep] == 0)
     {
       newStep = stepOut(endpoint,choosenOption);
       startPoint = endpoint;
@@ -35,12 +33,12 @@ function makeStep(choosenOption){
       lastStep = {x:endpoint.x-startPoint.x, y:startPoint.y-endpoint.y};  
     }
     else{
-      newStep = step(endpoint,choosenOption,lastStep);
+      newStep = step(map, endpoint,choosenOption,lastStep);
       if(newStep.x == -1 || newStep.y == -1 || (newStep.x == endpoint.x && newStep.y == endpoint.y)){
         
       }
-      else if (newStep.x > (mapa[0].length-1)*minimumStep)
-        newStep.y = mapa[0].length*minimumStep-1;
+      else if (newStep.x > (map[0].length-1)*minimumStep)
+        newStep.y = map[0].length*minimumStep-1;
       else{ 
       startPoint = endpoint;
       endpoint = newStep;
@@ -51,8 +49,8 @@ function makeStep(choosenOption){
   return { startPoint: startPoint, endPoint: endpoint };
 }
 
-function stepOut(endpoint,value){
-  var point={x:0,y:0};
+function stepOut(endpoint, value){
+  var point = { x:0, y:0 };
   switch(value) {
     case 1:
       point = {x:endpoint.x,y:endpoint.y+minimumStep};
@@ -81,8 +79,8 @@ function stepOut(endpoint,value){
   }
   return point;  
 };
-function getPossibleSteps(endpoint, lastStep){
-  if(mapa[endpoint.y/minimumStep][endpoint.x/minimumStep] != 0){
+function getPossibleSteps(map, endpoint, lastStep){
+  if(map[endpoint.y/minimumStep][endpoint.x/minimumStep] != 0){
     return [
       {x:endpoint.x+lastStep.x,y:endpoint.y-lastStep.y+ minimumStep},
       { x:endpoint.x + lastStep.x - minimumStep, y:endpoint.y - lastStep.y + minimumStep},
@@ -106,9 +104,9 @@ function getPossibleSteps(endpoint, lastStep){
   ]  
 }
 
-function step(endpoint, value, lastStep){ 
+function step(map, endpoint, value, lastStep){ 
   var point={ x:0, y:0} ;
-  if(mapa[endpoint.y/minimumStep][endpoint.x/minimumStep] != 0){
+  if(map[endpoint.y/minimumStep][endpoint.x/minimumStep] != 0){
     switch(value) { 
       case 1:
         if(!first) {
