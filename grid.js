@@ -1,14 +1,11 @@
-const dotSize = 4.3;
-const offroadDotSize = 2;
-
-function drawGrid(context, width, height) {
-    context.canvas.width = width;
-    context.canvas.height = height;
+function drawGrid(context, settings) {
+    context.canvas.width = settings.canvasWidth;
+    context.canvas.height = settings.canvasHeight;
 
     var grid = '<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"> \
         <defs> \
-            <pattern id="smallGrid" width="20" height="20" patternUnits="userSpaceOnUse"> \
-                <path d="M 20 0 L 0 0 0 20" fill="none" stroke="gray" stroke-width="0.5" /> \
+            <pattern id="smallGrid" width="' + settings.minimumStep + '" height="' + settings.minimumStep + '" patternUnits="userSpaceOnUse"> \
+                <path d="M ' + settings.minimumStep + ' 0 L 0 0 0 ' + settings.minimumStep + '" fill="none" stroke="gray" stroke-width="0.5" /> \
             </pattern> \
             <pattern id="grid" width="100" height="100" patternUnits="userSpaceOnUse"> \
                 <rect width="100" height="100" fill="url(#smallGrid)" /> \
@@ -44,27 +41,36 @@ function drawArrow(context, startX, startY, endX, endY) {
     context.stroke();
 }
 
-function drawPoint(context, x, y, size) {
-    context.fillStyle = "black";
-    context.fillRect(x - size / 2, y - size / 2, size, size);
+function drawPossiblePoints(map, ctx, stepsHistory, settings) {
+    const lastFromToWhere = stepsHistory[stepsHistory.length - 1];
+    const lastStepTemp = {
+        x: lastFromToWhere.endPoint.x - lastFromToWhere.startPoint.x,
+        y: lastFromToWhere.startPoint.y - lastFromToWhere.endPoint.y
+    };
+    var currentPossibleSteps = getPossibleSteps(map, lastFromToWhere.endPoint, lastStepTemp, settings);
+    drawPoints(ctx, currentPossibleSteps, settings.possibleMoveDotSize, settings.possibleMoveDotColor);
 }
 
-function drawPoints(context, pointList, size) {
-    context.fillStyle = "black";
+function drawPoint(context, x, y, pointSize, pointColor) {
+    context.fillStyle = pointColor;
+    context.fillRect(x - pointSize / 2, y - pointSize / 2, pointSize, pointSize);
+}
+
+function drawPoints(context, pointList, pointSize, pointColor) {
+    context.fillStyle = pointColor;
     for (var i = 0; i < pointList.length; i++) {
-        drawPoint(context, pointList[i].x, pointList[i].y, size);
+        drawPoint(context, pointList[i].x, pointList[i].y, pointSize);
     }
 }
 
-function drawRoads(context, map) {
+function drawRoads(context, map, settings) {
     var pointListToDraw = [];
     for (var row = 0; row < map.level.length; row++) {
         for (var column = 0; column < map.level[0].length; column++) {
             if (map.level[row][column] == 0) {
-                pointListToDraw.push({ x: column * minimumStep, y: row * minimumStep });
+                pointListToDraw.push({ x: column * settings.minimumStep, y: row * settings.minimumStep });
             }
         }
     }
-    context.fillStyle = "grey";
-    drawPoints(context, pointListToDraw, offroadDotSize);
+    drawPoints(context, pointListToDraw, settings.offroadDotSize, settings.offroadDotColor);
 }
