@@ -43,25 +43,25 @@ function getChoosenOption(keyboardInput)
     return choosenOption;
 }
 
-function drawAllPoints(ctx, stepsHistory){
+function drawAllPoints(map, ctx, stepsHistory){
     const lastFromToWhere = stepsHistory[stepsHistory.length - 1];
     const lastStepTemp = {
         x:lastFromToWhere.endPoint.x-lastFromToWhere.startPoint.x, 
         y:lastFromToWhere.startPoint.y-lastFromToWhere.endPoint.y
     }; 
-    var currentPossibleSteps = getPossibleSteps(lastFromToWhere.endPoint, lastStepTemp);
+    var currentPossibleSteps = getPossibleSteps(map, lastFromToWhere.endPoint, lastStepTemp);
     drawPoints(ctx, currentPossibleSteps, dotSize);
 }
 
-function onKeyboardInput (context, stepsHistory) {
+function onKeyboardInput (map, context, stepsHistory) {
     return function innerOnKeyboardInput (keyboardInput) {
         const choosenOption = getChoosenOption(keyboardInput);
         if (choosenOption != null){            
-            var fromToWhere = makeStep(choosenOption);
+            var fromToWhere = makeStep(map, choosenOption);
             stepsHistory.push(fromToWhere);
             drawGridArrow(context, fromToWhere.startPoint.x, fromToWhere.startPoint.y, 
                 fromToWhere.endPoint.x, fromToWhere.endPoint.y);
-            drawAllPoints(context, stepsHistory);
+            drawAllPoints(map, context, stepsHistory);
         }        
     }
 }
@@ -70,10 +70,11 @@ $(document).ready(function() {
     var c = document.getElementById("gridCanvas");
     var ctx = c.getContext("2d");
     var stepsHistory = [];
+    var map = mapFirstLevel;
     drawGrid(ctx, 800, 600);
-    drawRoads(ctx, mapa);
+    drawRoads(ctx, mapFirstLevel);
     drawGridArrow(ctx, arrowStartPoint.x, arrowStartPoint.y, arrowEndPoint.x, arrowEndPoint.y);
     stepsHistory.push({startPoint: arrowStartPoint, endPoint: arrowEndPoint});
-    drawAllPoints(ctx, stepsHistory);    
-    document.addEventListener("keypress", (onKeyboardInput)(ctx, stepsHistory));
+    drawAllPoints(map, ctx, stepsHistory);    
+    document.addEventListener("keypress", (onKeyboardInput)(map, ctx, stepsHistory));
 });

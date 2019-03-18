@@ -1,7 +1,5 @@
 const dotSize = 4.3;
-
 const offroadDotSize = 2;
-
 
 function drawGrid(ctx, w, h) {
     ctx.canvas.width  = w;
