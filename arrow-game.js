@@ -12,7 +12,7 @@ function startGame(map, context, stepsHistory, settings) {
     stepsHistory.length = 0;   
     drawGrid(context, settings);
     drawRoads(context, map, settings);
-    drawArrow(context, map.arrowStartPoint.x, map.arrowStartPoint.y, map.arrowEndPoint.x, map.arrowEndPoint.y);
+    drawArrow(context, map.arrowStartPoint, map.arrowEndPoint);
     stepsHistory.push({ startPoint: map.arrowStartPoint, endPoint: map.arrowEndPoint });
     drawPossiblePoints(map, context, stepsHistory, settings);
 }

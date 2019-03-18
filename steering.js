@@ -35,8 +35,7 @@ function onKeyboardInput(map, context, stepsHistory, settings) {
         if (choosenOption != null) {
             var fromToWhere = makeStep(map, choosenOption, settings);
             stepsHistory.push(fromToWhere);
-            drawArrow(context, fromToWhere.startPoint.x, fromToWhere.startPoint.y,
-                fromToWhere.endPoint.x, fromToWhere.endPoint.y);
+            drawArrow(context, fromToWhere.startPoint, fromToWhere.endPoint);
             drawPossiblePoints(map, context, stepsHistory, settings);
         }
     }
