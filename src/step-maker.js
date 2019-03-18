@@ -1,178 +1,191 @@
 var first = null;
 
 if (first == null || first != false)
-  	first = true;
+	first = true;
 
-function makeStep(map, choosenOption, settings) {
+function makeNextStep(map, chosenOption, settings) {
 	const minimumStep = settings.minimumStep;
 	if (first) {
 		startPoint = map.arrowStartPoint;
-		endpoint = map.arrowEndPoint;
-		lastStep = { x: map.arrowStartPoint.x - map.arrowEndPoint.x, y: map.arrowStartPoint.y - map.arrowEndPoint.y };
-		newStep = step(map, endpoint, choosenOption, lastStep, settings);
-		if (newStep.x == -1 || newStep.y == -1) {
-
-		}
+		endPoint = map.arrowEndPoint;
+		lastStep = countStep(map.arrowStartPoint, map.arrowEndPoint);
+		newStep = countNextStep(map, endPoint, chosenOption, lastStep, settings);
+		if (newStep === null) {
+			return null;
+		} 
 		else {
 			first = false;
-			startPoint = endpoint;
-			endpoint = newStep;
-			lastStep = { x: endpoint.x - startPoint.x, y: startPoint.y - endpoint.y };
+			startPoint = endPoint;
+			endPoint = newStep;
+			lastStep = countStep(startPoint, endPoint);
 		}
-  	}
-  	else {
-		if (map.level[endpoint.y / minimumStep][endpoint.x / minimumStep] == 2) {
+	}
+	else {
+		if (map.level[endPoint.y / minimumStep][endPoint.x / minimumStep] == 2) {
 			$("#winInfoLabel").show();
 			$("#winButton").show();
 		}
-		else if (map.level[endpoint.y / minimumStep][endpoint.x / minimumStep] == 0) {
-			newStep = stepOut(endpoint, choosenOption, settings);
-			startPoint = endpoint;
-			endpoint = newStep;
-			lastStep = { x: endpoint.x - startPoint.x, y: startPoint.y - endpoint.y };
-		} else {
-			newStep = step(map, endpoint, choosenOption, lastStep, settings);
-			if (newStep.x == -1 || newStep.y == -1 || (newStep.x == endpoint.x && newStep.y == endpoint.y)) {
+		else if (map.level[endPoint.y / minimumStep][endPoint.x / minimumStep] == 0) {
+			newStep = countStepOut(endPoint, chosenOption, settings);
+			startPoint = endPoint;
+			endPoint = newStep;
+			lastStep = countStep(startPoint, endPoint);
+		} 
+		else {
+			newStep = countNextStep(map, endPoint, chosenOption, lastStep, settings);
+			if (newStep === null || (newStep.x == endPoint.x && newStep.y == endPoint.y)) {
 
 			}
 			else if (newStep.x > (map.level[0].length - 1) * minimumStep) {
 				newStep.y = map.level[0].length * minimumStep - 1;
-			}				
+			}
 			else {
-				startPoint = endpoint;
-				endpoint = newStep;
-				lastStep = { x: endpoint.x - startPoint.x, y: startPoint.y - endpoint.y };
+				startPoint = endPoint;
+				endPoint = newStep;
+				lastStep = countStep(startPoint, endPoint);
 			}
 		}
-  	}
-  	return { startPoint: startPoint, endPoint: endpoint };
+	}
+	return { startPoint: startPoint, endPoint: endPoint };
 }
 
-function stepOut(endpoint, value, settings) {
+function countStepOut(endPoint, chosenOption, settings) {
 	const minimumStep = settings.minimumStep;
-	var point = { x: 0, y: 0 };
-	switch (value) {
+	var nextStep = null;
+	switch (chosenOption) {
 		case 1:
-			point = { x: endpoint.x, y: endpoint.y + minimumStep };
+			nextStep = { x: endPoint.x, y: endPoint.y + minimumStep };
 			break;
 		case 2:
-			point = { x: endpoint.x - minimumStep, y: endpoint.y + minimumStep };
+			nextStep = { x: endPoint.x - minimumStep, y: endPoint.y + minimumStep };
 			break;
 		case 3:
-			point = { x: endpoint.x - minimumStep, y: endpoint.y };
+			nextStep = { x: endPoint.x - minimumStep, y: endPoint.y };
 			break;
 		case 4:
-			point = { x: endpoint.x - minimumStep, y: endpoint.y - minimumStep };
+			nextStep = { x: endPoint.x - minimumStep, y: endPoint.y - minimumStep };
 			break;
 		case 5:
-			point = { x: endpoint.x, y: endpoint.y - minimumStep };
+			nextStep = { x: endPoint.x, y: endPoint.y - minimumStep };
 			break;
 		case 6:
-			point = { x: endpoint.x + minimumStep, y: endpoint.y - minimumStep };
+			nextStep = { x: endPoint.x + minimumStep, y: endPoint.y - minimumStep };
 			break;
 		case 7:
-			point = { x: endpoint.x + minimumStep, y: endpoint.y };
+			nextStep = { x: endPoint.x + minimumStep, y: endPoint.y };
 			break;
 		case 8:
-			point = { x: endpoint.x + minimumStep, y: endpoint.y + minimumStep };
+			nextStep = { x: endPoint.x + minimumStep, y: endPoint.y + minimumStep };
 			break;
 	}
-	return point;
+	return nextStep;
 };
 
-function getPossibleSteps(map, endpoint, lastStep, settings) {
+function getPossibleSteps(map, endPoint, lastStep, settings) {
 	const minimumStep = settings.minimumStep;
-	if (map.level[endpoint.y / minimumStep][endpoint.x / minimumStep] != 0) {
+	if (map.level[endPoint.y / minimumStep][endPoint.x / minimumStep] != 0) {
 		return [
-			{ x: endpoint.x + lastStep.x, y: endpoint.y - lastStep.y + minimumStep },
-			{ x: endpoint.x + lastStep.x - minimumStep, y: endpoint.y - lastStep.y + minimumStep },
-			{ x: endpoint.x + lastStep.x - minimumStep, y: endpoint.y - lastStep.y },
-			{ x: endpoint.x + lastStep.x - minimumStep, y: endpoint.y - lastStep.y - minimumStep },
-			{ x: endpoint.x + lastStep.x, y: endpoint.y - lastStep.y - minimumStep },
-			{ x: endpoint.x + lastStep.x + minimumStep, y: endpoint.y - lastStep.y - minimumStep },
-			{ x: endpoint.x + lastStep.x + minimumStep, y: endpoint.y - lastStep.y },
-			{ x: endpoint.x + lastStep.x + minimumStep, y: endpoint.y - lastStep.y + minimumStep },
+			{ x: endPoint.x + lastStep.x, y: endPoint.y - lastStep.y + minimumStep },
+			{ x: endPoint.x + lastStep.x - minimumStep, y: endPoint.y - lastStep.y + minimumStep },
+			{ x: endPoint.x + lastStep.x - minimumStep, y: endPoint.y - lastStep.y },
+			{ x: endPoint.x + lastStep.x - minimumStep, y: endPoint.y - lastStep.y - minimumStep },
+			{ x: endPoint.x + lastStep.x, y: endPoint.y - lastStep.y - minimumStep },
+			{ x: endPoint.x + lastStep.x + minimumStep, y: endPoint.y - lastStep.y - minimumStep },
+			{ x: endPoint.x + lastStep.x + minimumStep, y: endPoint.y - lastStep.y },
+			{ x: endPoint.x + lastStep.x + minimumStep, y: endPoint.y - lastStep.y + minimumStep },
 		]
 	}
 	return [
-		{ x: endpoint.x, y: endpoint.y + minimumStep },
-		{ x: endpoint.x - minimumStep, y: endpoint.y + minimumStep },
-		{ x: endpoint.x - minimumStep, y: endpoint.y },
-		{ x: endpoint.x - minimumStep, y: endpoint.y - minimumStep },
-		{ x: endpoint.x, y: endpoint.y - minimumStep },
-		{ x: endpoint.x + minimumStep, y: endpoint.y - minimumStep },
-		{ x: endpoint.x + minimumStep, y: endpoint.y },
-		{ x: endpoint.x + minimumStep, y: endpoint.y + minimumStep },
+		{ x: endPoint.x, y: endPoint.y + minimumStep },
+		{ x: endPoint.x - minimumStep, y: endPoint.y + minimumStep },
+		{ x: endPoint.x - minimumStep, y: endPoint.y },
+		{ x: endPoint.x - minimumStep, y: endPoint.y - minimumStep },
+		{ x: endPoint.x, y: endPoint.y - minimumStep },
+		{ x: endPoint.x + minimumStep, y: endPoint.y - minimumStep },
+		{ x: endPoint.x + minimumStep, y: endPoint.y },
+		{ x: endPoint.x + minimumStep, y: endPoint.y + minimumStep },
 	]
 }
 
-function step(map, endpoint, value, lastStep, settings) {
+function countNextStep(map, endPoint, chosenOption, lastStep, settings) {
 	const minimumStep = settings.minimumStep;
-	var point = { x: 0, y: 0 };
-	if (map.level[endpoint.y / minimumStep][endpoint.x / minimumStep] != 0) {
-		switch (value) {
-		case 1:
-			if (!first) {
-				point = { x: endpoint.x + lastStep.x, y: endpoint.y - lastStep.y + minimumStep };
-			}
-			else {
-				point = { x: -1, y: -1 };
-			}
-			break;
-		case 2:
-			point = { x: endpoint.x + lastStep.x - minimumStep, y: endpoint.y - lastStep.y + minimumStep };
-			break;
-		case 3:
-			point = { x: endpoint.x + lastStep.x - minimumStep, y: endpoint.y - lastStep.y };
-			break;
-		case 4:
-			point = { x: endpoint.x + lastStep.x - minimumStep, y: endpoint.y - lastStep.y - minimumStep };
-			break;
-		case 5:
-			point = { x: endpoint.x + lastStep.x, y: endpoint.y - lastStep.y - minimumStep };
-			break;
-		case 6:
-			point = { x: endpoint.x + lastStep.x + minimumStep, y: endpoint.y - lastStep.y - minimumStep };
-			break;
-		case 7:
-			point = { x: endpoint.x + lastStep.x + minimumStep, y: endpoint.y - lastStep.y };
-			break;
-		case 8:
-			point = { x: endpoint.x + lastStep.x + minimumStep, y: endpoint.y - lastStep.y + minimumStep };
-			break;
+	var nextStep = null;
+	if (map.level[endPoint.y / minimumStep][endPoint.x / minimumStep] != 0) {
+		switch (chosenOption) {
+			case 1:
+				if (!first) {
+					nextStep = { x: endPoint.x + lastStep.x, y: endPoint.y - lastStep.y + minimumStep };
+				}
+				else {
+					nextStep = null;
+				}
+				break;
+			case 2:
+				nextStep = { x: endPoint.x + lastStep.x - minimumStep, y: endPoint.y - lastStep.y + minimumStep };
+				break;
+			case 3:
+				nextStep = { x: endPoint.x + lastStep.x - minimumStep, y: endPoint.y - lastStep.y };
+				break;
+			case 4:
+				nextStep = { x: endPoint.x + lastStep.x - minimumStep, y: endPoint.y - lastStep.y - minimumStep };
+				break;
+			case 5:
+				nextStep = { x: endPoint.x + lastStep.x, y: endPoint.y - lastStep.y - minimumStep };
+				break;
+			case 6:
+				nextStep = { x: endPoint.x + lastStep.x + minimumStep, y: endPoint.y - lastStep.y - minimumStep };
+				break;
+			case 7:
+				nextStep = { x: endPoint.x + lastStep.x + minimumStep, y: endPoint.y - lastStep.y };
+				break;
+			case 8:
+				nextStep = { x: endPoint.x + lastStep.x + minimumStep, y: endPoint.y - lastStep.y + minimumStep };
+				break;
 		}
 	} else {
-		switch (value) {
-		case 1:
-			if (!first) {
-			point = { x: endpoint.x, y: endpoint.y + minimumStep };
-			}
-			else {
-			point = { x: -1, y: -1 };
-			}
-			break;
-		case 2:
-			point = { x: endpoint.x - minimumStep, y: endpoint.y + minimumStep };
-			break;
-		case 3:
-			point = { x: endpoint.x - minimumStep, y: endpoint.y };
-			break;
-		case 4:
-			point = { x: endpoint.x - minimumStep, y: endpoint.y - minimumStep };
-			break;
-		case 5:
-			point = { x: endpoint.x, y: endpoint.y - minimumStep };
-			break;
-		case 6:
-			point = { x: endpoint.x + minimumStep, y: endpoint.y - minimumStep };
-			break;
-		case 7:
-			point = { x: endpoint.x + minimumStep, y: endpoint.y };
-			break;
-		case 8:
-			point = { x: endpoint.x + minimumStep, y: endpoint.y + minimumStep };
-			break;
+		switch (chosenOption) {
+			case 1:
+				if (!first) {
+					nextStep = { x: endPoint.x, y: endPoint.y + minimumStep };
+				}
+				else {
+					nextStep = null;
+				}
+				break;
+			case 2:
+				nextStep = { x: endPoint.x - minimumStep, y: endPoint.y + minimumStep };
+				break;
+			case 3:
+				nextStep = { x: endPoint.x - minimumStep, y: endPoint.y };
+				break;
+			case 4:
+				nextStep = { x: endPoint.x - minimumStep, y: endPoint.y - minimumStep };
+				break;
+			case 5:
+				nextStep = { x: endPoint.x, y: endPoint.y - minimumStep };
+				break;
+			case 6:
+				nextStep = { x: endPoint.x + minimumStep, y: endPoint.y - minimumStep };
+				break;
+			case 7:
+				nextStep = { x: endPoint.x + minimumStep, y: endPoint.y };
+				break;
+			case 8:
+				nextStep = { x: endPoint.x + minimumStep, y: endPoint.y + minimumStep };
+				break;
 		}
 	}
-	return point;
+	return nextStep;
 };
+
+function countStep(startPoint, endPoint) {
+	return { x: endPoint.x - startPoint.x, y: startPoint.y - endPoint.y };
+}
+
+function getBottomOption() {
+
+}
+
+function getTopLeftOption() {
+
+}

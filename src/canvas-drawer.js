@@ -2,23 +2,12 @@ function drawGrid(context, settings) {
     context.canvas.width = settings.canvasWidth;
     context.canvas.height = settings.canvasHeight;
 
-    var grid = '<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"> \
-        <defs> \
-            <pattern id="smallGrid" width="' + settings.minimumStep + '" height="' + settings.minimumStep + '" patternUnits="userSpaceOnUse"> \
-                <path d="M ' + settings.minimumStep + ' 0 L 0 0 0 ' + settings.minimumStep + '" fill="none" stroke="gray" stroke-width="0.5" /> \
-            </pattern> \
-            <pattern id="grid" width="100" height="100" patternUnits="userSpaceOnUse"> \
-                <rect width="100" height="100" fill="url(#smallGrid)" /> \
-                <path d="M 100 0 L 0 0 0 100" fill="none" stroke="gray" stroke-width="1" /> \
-            </pattern> \
-        </defs> \
-        <rect width="100%" height="100%" fill="url(#smallGrid)" /> \
-    </svg>';
+    const gridPattern = getGridPattern(settings);
 
     var DOMURL = window.URL || window.webkitURL || window;
 
     var image = new Image();
-    var svg = new Blob([grid], { type: 'image/svg+xml;charset=utf-8' });
+    var svg = new Blob([gridPattern], { type: 'image/svg+xml;charset=utf-8' });
     var url = DOMURL.createObjectURL(svg);
 
     image.onload = function () {
@@ -29,8 +18,8 @@ function drawGrid(context, settings) {
 }
 
 function drawArrow(context, startPoint, endPoint) {
-    var headLenght = 8;
-    var angle = Math.atan2(endPoint.y - startPoint.y, endPoint.x - startPoint.x);
+    const headLenght = 8;
+    const angle = Math.atan2(endPoint.y - startPoint.y, endPoint.x - startPoint.x);
     context.beginPath();
     context.lineWidth = 2.7;
     context.moveTo(startPoint.x, startPoint.y);
@@ -53,6 +42,18 @@ function drawPossiblePoints(map, ctx, stepsHistory, settings) {
     drawPoints(ctx, currentPossibleSteps, settings.possibleMoveDotSize, settings.possibleMoveDotColor);
 }
 
+function drawRoads(context, map, settings) {
+    var pointListToDraw = [];
+    for (var row = 0; row < map.level.length; row++) {
+        for (var column = 0; column < map.level[0].length; column++) {
+            if (map.level[row][column] == 0) {
+                pointListToDraw.push({ x: column * settings.minimumStep, y: row * settings.minimumStep });
+            }
+        }
+    }
+    drawPoints(context, pointListToDraw, settings.offroadDotSize, settings.offroadDotColor);
+}
+
 function drawPoint(context, pointCoordinates, pointSize, pointColor) {
     context.fillStyle = pointColor;
     context.fillRect(pointCoordinates.x - pointSize / 2, pointCoordinates.y - pointSize / 2, pointSize, pointSize);
@@ -65,14 +66,17 @@ function drawPoints(context, pointList, pointSize, pointColor) {
     }
 }
 
-function drawRoads(context, map, settings) {
-    var pointListToDraw = [];
-    for (var row = 0; row < map.level.length; row++) {
-        for (var column = 0; column < map.level[0].length; column++) {
-            if (map.level[row][column] == 0) {
-                pointListToDraw.push({ x: column * settings.minimumStep, y: row * settings.minimumStep });
-            }
-        }
-    }
-    drawPoints(context, pointListToDraw, settings.offroadDotSize, settings.offroadDotColor);
+function getGridPattern(settings) {
+    return '<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"> \
+        <defs> \
+            <pattern id="smallGrid" width="' + settings.minimumStep + '" height="' + settings.minimumStep + '" patternUnits="userSpaceOnUse"> \
+                <path d="M ' + settings.minimumStep + ' 0 L 0 0 0 ' + settings.minimumStep + '" fill="none" stroke="gray" stroke-width="0.5" /> \
+            </pattern> \
+            <pattern id="grid" width="100" height="100" patternUnits="userSpaceOnUse"> \
+                <rect width="100" height="100" fill="url(#smallGrid)" /> \
+                <path d="M 100 0 L 0 0 0 100" fill="none" stroke="gray" stroke-width="1" /> \
+            </pattern> \
+        </defs> \
+        <rect width="100%" height="100%" fill="url(#smallGrid)" /> \
+    </svg>';
 }
