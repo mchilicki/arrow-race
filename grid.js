@@ -2,9 +2,9 @@ const dotSize = 4.3;
 const offroadDotSize = 2;
 
 function drawGrid(ctx, w, h) {
-    ctx.canvas.width  = w;
+    ctx.canvas.width = w;
     ctx.canvas.height = h;
-    
+
     var data = '<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"> \
         <defs> \
             <pattern id="smallGrid" width="20" height="20" patternUnits="userSpaceOnUse"> \
@@ -19,11 +19,11 @@ function drawGrid(ctx, w, h) {
     </svg>';
 
     var DOMURL = window.URL || window.webkitURL || window;
-    
+
     var img = new Image();
-    var svg = new Blob([data], {type: 'image/svg+xml;charset=utf-8'});
+    var svg = new Blob([data], { type: 'image/svg+xml;charset=utf-8' });
     var url = DOMURL.createObjectURL(svg);
-    
+
     img.onload = function () {
         ctx.drawImage(img, 0, 0);
         DOMURL.revokeObjectURL(url);
@@ -38,20 +38,20 @@ function drawGridArrow(context, startX, startY, endX, endY) {
     context.lineWidth = 2.7;
     context.moveTo(startX, startY);
     context.lineTo(endX, endY);
-    context.lineTo(endX - headLenght * Math.cos(angle - Math.PI/6), endY - headLenght * Math.sin(angle - Math.PI/6));
+    context.lineTo(endX - headLenght * Math.cos(angle - Math.PI / 6), endY - headLenght * Math.sin(angle - Math.PI / 6));
     context.moveTo(endX, endY);
-    context.lineTo(endX - headLenght * Math.cos(angle + Math.PI/6), endY - headLenght * Math.sin(angle + Math.PI/6));
+    context.lineTo(endX - headLenght * Math.cos(angle + Math.PI / 6), endY - headLenght * Math.sin(angle + Math.PI / 6));
     context.stroke();
 }
 
-function drawPoint(context, x, y, size){
+function drawPoint(context, x, y, size) {
     context.fillStyle = "black";
     context.fillRect(x - size / 2, y - size / 2, size, size);
 }
 
-function drawPoints(context, pointList, size){
+function drawPoints(context, pointList, size) {
     context.fillStyle = "black";
-    for (var i = 0; i < pointList.length; i++){
+    for (var i = 0; i < pointList.length; i++) {
         drawPoint(context, pointList[i].x, pointList[i].y, size);
     }
 }
@@ -61,12 +61,12 @@ function drawImportantPoint(context, x, y, color) {
     context.fillRect(x - dotSize / 2, y - dotSize / 2, dotSize, dotSize);
 }
 
-function drawRoads(context, allMapPoints){
+function drawRoads(context, allMapPoints) {
     var pointListToDraw = [];
-    for (var row = 0; row < allMapPoints.length; row++){
-        for (var column = 0; column < allMapPoints[0].length; column++){
+    for (var row = 0; row < allMapPoints.length; row++) {
+        for (var column = 0; column < allMapPoints[0].length; column++) {
             if (allMapPoints[row][column] == 0) {
-                pointListToDraw.push({x: column * minimumStep, y: row * minimumStep});
+                pointListToDraw.push({ x: column * minimumStep, y: row * minimumStep });
             }
         }
     }
