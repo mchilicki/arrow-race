@@ -28,16 +28,18 @@ function drawGrid(context, settings) {
     image.src = url;
 }
 
-function drawArrow(context, startX, startY, endX, endY) {
+function drawArrow(context, startPoint, endPoint) {
     var headLenght = 8;
-    var angle = Math.atan2(endY - startY, endX - startX);
+    var angle = Math.atan2(endPoint.y - startPoint.y, endPoint.x - startPoint.x);
     context.beginPath();
     context.lineWidth = 2.7;
-    context.moveTo(startX, startY);
-    context.lineTo(endX, endY);
-    context.lineTo(endX - headLenght * Math.cos(angle - Math.PI / 6), endY - headLenght * Math.sin(angle - Math.PI / 6));
-    context.moveTo(endX, endY);
-    context.lineTo(endX - headLenght * Math.cos(angle + Math.PI / 6), endY - headLenght * Math.sin(angle + Math.PI / 6));
+    context.moveTo(startPoint.x, startPoint.y);
+    context.lineTo(endPoint.x, endPoint.y);
+    context.lineTo(endPoint.x - headLenght * Math.cos(angle - Math.PI / 6), 
+                   endPoint.y - headLenght * Math.sin(angle - Math.PI / 6));
+    context.moveTo(endPoint.x, endPoint.y);
+    context.lineTo(endPoint.x - headLenght * Math.cos(angle + Math.PI / 6), 
+                   endPoint.y - headLenght * Math.sin(angle + Math.PI / 6));
     context.stroke();
 }
 
@@ -51,15 +53,15 @@ function drawPossiblePoints(map, ctx, stepsHistory, settings) {
     drawPoints(ctx, currentPossibleSteps, settings.possibleMoveDotSize, settings.possibleMoveDotColor);
 }
 
-function drawPoint(context, x, y, pointSize, pointColor) {
+function drawPoint(context, pointCoordinates, pointSize, pointColor) {
     context.fillStyle = pointColor;
-    context.fillRect(x - pointSize / 2, y - pointSize / 2, pointSize, pointSize);
+    context.fillRect(pointCoordinates.x - pointSize / 2, pointCoordinates.y - pointSize / 2, pointSize, pointSize);
 }
 
 function drawPoints(context, pointList, pointSize, pointColor) {
     context.fillStyle = pointColor;
     for (var i = 0; i < pointList.length; i++) {
-        drawPoint(context, pointList[i].x, pointList[i].y, pointSize);
+        drawPoint(context, pointList[i], pointSize);
     }
 }
 
