@@ -5,7 +5,7 @@ function drawGrid(context, width, height) {
     context.canvas.width = width;
     context.canvas.height = height;
 
-    var data = '<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"> \
+    var grid = '<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"> \
         <defs> \
             <pattern id="smallGrid" width="20" height="20" patternUnits="userSpaceOnUse"> \
                 <path d="M 20 0 L 0 0 0 20" fill="none" stroke="gray" stroke-width="0.5" /> \
@@ -21,7 +21,7 @@ function drawGrid(context, width, height) {
     var DOMURL = window.URL || window.webkitURL || window;
 
     var image = new Image();
-    var svg = new Blob([data], { type: 'image/svg+xml;charset=utf-8' });
+    var svg = new Blob([grid], { type: 'image/svg+xml;charset=utf-8' });
     var url = DOMURL.createObjectURL(svg);
 
     image.onload = function () {
