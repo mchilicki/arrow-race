@@ -1,9 +1,9 @@
 const dotSize = 4.3;
 const offroadDotSize = 2;
 
-function drawGrid(ctx, w, h) {
-    ctx.canvas.width = w;
-    ctx.canvas.height = h;
+function drawGrid(context, width, height) {
+    context.canvas.width = width;
+    context.canvas.height = height;
 
     var data = '<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"> \
         <defs> \
@@ -20,18 +20,18 @@ function drawGrid(ctx, w, h) {
 
     var DOMURL = window.URL || window.webkitURL || window;
 
-    var img = new Image();
+    var image = new Image();
     var svg = new Blob([data], { type: 'image/svg+xml;charset=utf-8' });
     var url = DOMURL.createObjectURL(svg);
 
-    img.onload = function () {
-        ctx.drawImage(img, 0, 0);
+    image.onload = function () {
+        context.drawImage(image, 0, 0);
         DOMURL.revokeObjectURL(url);
     }
-    img.src = url;
+    image.src = url;
 }
 
-function drawGridArrow(context, startX, startY, endX, endY) {
+function drawArrow(context, startX, startY, endX, endY) {
     var headLenght = 8;
     var angle = Math.atan2(endY - startY, endX - startX);
     context.beginPath();
@@ -54,11 +54,6 @@ function drawPoints(context, pointList, size) {
     for (var i = 0; i < pointList.length; i++) {
         drawPoint(context, pointList[i].x, pointList[i].y, size);
     }
-}
-
-function drawImportantPoint(context, x, y, color) {
-    context.fillStyle = color;
-    context.fillRect(x - dotSize / 2, y - dotSize / 2, dotSize, dotSize);
 }
 
 function drawRoads(context, allMapPoints) {

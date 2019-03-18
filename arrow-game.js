@@ -58,7 +58,7 @@ function onKeyboardInput(map, context, stepsHistory) {
         if (choosenOption != null) {
             var fromToWhere = makeStep(map, choosenOption);
             stepsHistory.push(fromToWhere);
-            drawGridArrow(context, fromToWhere.startPoint.x, fromToWhere.startPoint.y,
+            drawArrow(context, fromToWhere.startPoint.x, fromToWhere.startPoint.y,
                 fromToWhere.endPoint.x, fromToWhere.endPoint.y);
             drawAllPoints(map, context, stepsHistory);
         }
@@ -72,7 +72,7 @@ $(document).ready(function () {
     var map = mapFirstLevel;
     drawGrid(ctx, 800, 600);
     drawRoads(ctx, mapFirstLevel);
-    drawGridArrow(ctx, arrowStartPoint.x, arrowStartPoint.y, arrowEndPoint.x, arrowEndPoint.y);
+    drawArrow(ctx, arrowStartPoint.x, arrowStartPoint.y, arrowEndPoint.x, arrowEndPoint.y);
     stepsHistory.push({ startPoint: arrowStartPoint, endPoint: arrowEndPoint });
     drawAllPoints(map, ctx, stepsHistory);
     document.addEventListener("keypress", (onKeyboardInput)(map, ctx, stepsHistory));
