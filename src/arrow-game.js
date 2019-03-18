@@ -5,7 +5,7 @@ $(document).ready(function () {
     var map = mapFirstLevel;
     var settings = SETTINGS;
     startGame(map, context, stepsHistory, settings);
-    document.addEventListener("keypress", (onKeyboardInput)(map, context, stepsHistory, settings));
+    document.addEventListener("keypress", (makeMove)(map, context, stepsHistory, settings));
 });
 
 function startGame(map, context, stepsHistory, settings) {  
