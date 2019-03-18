@@ -51,44 +51,44 @@ function stepOut(endpoint, value) {
 	var point = { x: 0, y: 0 };
 	switch (value) {
 		case 1:
-		point = { x: endpoint.x, y: endpoint.y + minimumStep };
-		break;
+			point = { x: endpoint.x, y: endpoint.y + minimumStep };
+			break;
 		case 2:
-		point = { x: endpoint.x - minimumStep, y: endpoint.y + minimumStep };
-		break;
+			point = { x: endpoint.x - minimumStep, y: endpoint.y + minimumStep };
+			break;
 		case 3:
-		point = { x: endpoint.x - minimumStep, y: endpoint.y };
-		break;
+			point = { x: endpoint.x - minimumStep, y: endpoint.y };
+			break;
 		case 4:
-		point = { x: endpoint.x - minimumStep, y: endpoint.y - minimumStep };
-		break;
+			point = { x: endpoint.x - minimumStep, y: endpoint.y - minimumStep };
+			break;
 		case 5:
-		point = { x: endpoint.x, y: endpoint.y - minimumStep };
-		break;
+			point = { x: endpoint.x, y: endpoint.y - minimumStep };
+			break;
 		case 6:
-		point = { x: endpoint.x + minimumStep, y: endpoint.y - minimumStep };
-		break;
+			point = { x: endpoint.x + minimumStep, y: endpoint.y - minimumStep };
+			break;
 		case 7:
-		point = { x: endpoint.x + minimumStep, y: endpoint.y };
-		break;
+			point = { x: endpoint.x + minimumStep, y: endpoint.y };
+			break;
 		case 8:
-		point = { x: endpoint.x + minimumStep, y: endpoint.y + minimumStep };
-		break;
+			point = { x: endpoint.x + minimumStep, y: endpoint.y + minimumStep };
+			break;
 	}
-		return point;
+	return point;
 };
 
 function getPossibleSteps(map, endpoint, lastStep) {
 	if (map[endpoint.y / minimumStep][endpoint.x / minimumStep] != 0) {
 		return [
-		{ x: endpoint.x + lastStep.x, y: endpoint.y - lastStep.y + minimumStep },
-		{ x: endpoint.x + lastStep.x - minimumStep, y: endpoint.y - lastStep.y + minimumStep },
-		{ x: endpoint.x + lastStep.x - minimumStep, y: endpoint.y - lastStep.y },
-		{ x: endpoint.x + lastStep.x - minimumStep, y: endpoint.y - lastStep.y - minimumStep },
-		{ x: endpoint.x + lastStep.x, y: endpoint.y - lastStep.y - minimumStep },
-		{ x: endpoint.x + lastStep.x + minimumStep, y: endpoint.y - lastStep.y - minimumStep },
-		{ x: endpoint.x + lastStep.x + minimumStep, y: endpoint.y - lastStep.y },
-		{ x: endpoint.x + lastStep.x + minimumStep, y: endpoint.y - lastStep.y + minimumStep },
+			{ x: endpoint.x + lastStep.x, y: endpoint.y - lastStep.y + minimumStep },
+			{ x: endpoint.x + lastStep.x - minimumStep, y: endpoint.y - lastStep.y + minimumStep },
+			{ x: endpoint.x + lastStep.x - minimumStep, y: endpoint.y - lastStep.y },
+			{ x: endpoint.x + lastStep.x - minimumStep, y: endpoint.y - lastStep.y - minimumStep },
+			{ x: endpoint.x + lastStep.x, y: endpoint.y - lastStep.y - minimumStep },
+			{ x: endpoint.x + lastStep.x + minimumStep, y: endpoint.y - lastStep.y - minimumStep },
+			{ x: endpoint.x + lastStep.x + minimumStep, y: endpoint.y - lastStep.y },
+			{ x: endpoint.x + lastStep.x + minimumStep, y: endpoint.y - lastStep.y + minimumStep },
 		]
 	}
 	return [
