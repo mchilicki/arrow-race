@@ -8,39 +8,7 @@ const arrowEndPoint = {
     y: 580,
 }
 
-const numpadKeyboardKeys = [48, 49, 50, 51, 52, 53, 54, 55, 56, 57];
-
 const minimumStep = 20;
-const importantDotColor = "red";
-
-function getChoosenOption(keyboardInput) {
-    var choosenOption = null;
-    if (keyboardInput.keyCode === numpadKeyboardKeys[2]) {
-        choosenOption = 1;
-    }
-    else if (keyboardInput.keyCode === numpadKeyboardKeys[1]) {
-        choosenOption = 2;
-    }
-    else if (keyboardInput.keyCode == numpadKeyboardKeys[4]) {
-        choosenOption = 3;
-    }
-    else if (keyboardInput.keyCode == numpadKeyboardKeys[7]) {
-        choosenOption = 4;
-    }
-    else if (keyboardInput.keyCode == numpadKeyboardKeys[8]) {
-        choosenOption = 5;
-    }
-    else if (keyboardInput.keyCode == numpadKeyboardKeys[9]) {
-        choosenOption = 6;
-    }
-    else if (keyboardInput.keyCode == numpadKeyboardKeys[6]) {
-        choosenOption = 7;
-    }
-    else if (keyboardInput.keyCode == numpadKeyboardKeys[3]) {
-        choosenOption = 8;
-    }
-    return choosenOption;
-}
 
 function drawAllPoints(map, ctx, stepsHistory) {
     const lastFromToWhere = stepsHistory[stepsHistory.length - 1];
@@ -52,28 +20,20 @@ function drawAllPoints(map, ctx, stepsHistory) {
     drawPoints(ctx, currentPossibleSteps, dotSize);
 }
 
-function onKeyboardInput(map, context, stepsHistory) {
-    return function innerOnKeyboardInput(keyboardInput) {
-        const choosenOption = getChoosenOption(keyboardInput);
-        if (choosenOption != null) {
-            var fromToWhere = makeStep(map, choosenOption);
-            stepsHistory.push(fromToWhere);
-            drawArrow(context, fromToWhere.startPoint.x, fromToWhere.startPoint.y,
-                fromToWhere.endPoint.x, fromToWhere.endPoint.y);
-            drawAllPoints(map, context, stepsHistory);
-        }
-    }
-}
-
 $(document).ready(function () {
-    var c = document.getElementById("gridCanvas");
-    var ctx = c.getContext("2d");
+    var canvas = document.getElementById("gridCanvas");
+    var context = canvas.getContext("2d");
     var stepsHistory = [];
     var map = mapFirstLevel;
-    drawGrid(ctx, 800, 600);
-    drawRoads(ctx, mapFirstLevel);
-    drawArrow(ctx, arrowStartPoint.x, arrowStartPoint.y, arrowEndPoint.x, arrowEndPoint.y);
-    stepsHistory.push({ startPoint: arrowStartPoint, endPoint: arrowEndPoint });
-    drawAllPoints(map, ctx, stepsHistory);
-    document.addEventListener("keypress", (onKeyboardInput)(map, ctx, stepsHistory));
+    startGame(map, context, arrowStartPoint, arrowEndPoint, stepsHistory);
+    document.addEventListener("keypress", (onKeyboardInput)(map, context, stepsHistory));
 });
+
+function startGame(map, context, arrowStartPoint, arrowEndPoint, stepsHistory) {    
+    stepsHistory.length = 0;   
+    drawGrid(context, 800, 600);
+    drawRoads(context, map);
+    drawArrow(context, arrowStartPoint.x, arrowStartPoint.y, arrowEndPoint.x, arrowEndPoint.y);
+    stepsHistory.push({ startPoint: arrowStartPoint, endPoint: arrowEndPoint });
+    drawAllPoints(map, context, stepsHistory);
+}
