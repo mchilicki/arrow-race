@@ -1,13 +1,3 @@
-const arrowStartPoint = {
-    x: 100,
-    y: 600
-}
-
-const arrowEndPoint = {
-    x: 100,
-    y: 580,
-}
-
 const minimumStep = 20;
 
 function drawAllPoints(map, ctx, stepsHistory) {
@@ -25,15 +15,15 @@ $(document).ready(function () {
     var context = canvas.getContext("2d");
     var stepsHistory = [];
     var map = mapFirstLevel;
-    startGame(map, context, arrowStartPoint, arrowEndPoint, stepsHistory);
+    startGame(map, context, stepsHistory);
     document.addEventListener("keypress", (onKeyboardInput)(map, context, stepsHistory));
 });
 
-function startGame(map, context, arrowStartPoint, arrowEndPoint, stepsHistory) {    
+function startGame(map, context, stepsHistory) {    
     stepsHistory.length = 0;   
     drawGrid(context, 800, 600);
     drawRoads(context, map);
-    drawArrow(context, arrowStartPoint.x, arrowStartPoint.y, arrowEndPoint.x, arrowEndPoint.y);
-    stepsHistory.push({ startPoint: arrowStartPoint, endPoint: arrowEndPoint });
+    drawArrow(context, map.arrowStartPoint.x, map.arrowStartPoint.y, map.arrowEndPoint.x, map.arrowEndPoint.y);
+    stepsHistory.push({ startPoint: map.arrowStartPoint, endPoint: map.arrowEndPoint });
     drawAllPoints(map, context, stepsHistory);
 }

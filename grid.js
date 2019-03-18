@@ -56,11 +56,11 @@ function drawPoints(context, pointList, size) {
     }
 }
 
-function drawRoads(context, allMapPoints) {
+function drawRoads(context, map) {
     var pointListToDraw = [];
-    for (var row = 0; row < allMapPoints.length; row++) {
-        for (var column = 0; column < allMapPoints[0].length; column++) {
-            if (allMapPoints[row][column] == 0) {
+    for (var row = 0; row < map.level.length; row++) {
+        for (var column = 0; column < map.level[0].length; column++) {
+            if (map.level[row][column] == 0) {
                 pointListToDraw.push({ x: column * minimumStep, y: row * minimumStep });
             }
         }
