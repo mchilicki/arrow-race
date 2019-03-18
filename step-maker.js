@@ -5,9 +5,9 @@ if (first == null || first != false)
 
 function makeStep(map, choosenOption) {
 	if (first) {
-		startPoint = arrowStartPoint;
-		endpoint = arrowEndPoint;
-		lastStep = { x: arrowStartPoint.x - arrowEndPoint.x, y: arrowStartPoint.y - arrowEndPoint.y };
+		startPoint = map.arrowStartPoint;
+		endpoint = map.arrowEndPoint;
+		lastStep = { x: map.arrowStartPoint.x - map.arrowEndPoint.x, y: map.arrowStartPoint.y - map.arrowEndPoint.y };
 		newStep = step(map, endpoint, choosenOption, lastStep);
 		if (newStep.x == -1 || newStep.y == -1) {
 
@@ -20,11 +20,11 @@ function makeStep(map, choosenOption) {
 		}
   	}
   	else {
-		if (map[endpoint.y / minimumStep][endpoint.x / minimumStep] == 2) {
+		if (map.level[endpoint.y / minimumStep][endpoint.x / minimumStep] == 2) {
 			$("#winInfoLabel").show();
 			$("#winButton").show();
 		}
-		else if (map[endpoint.y / minimumStep][endpoint.x / minimumStep] == 0) {
+		else if (map.level[endpoint.y / minimumStep][endpoint.x / minimumStep] == 0) {
 			newStep = stepOut(endpoint, choosenOption);
 			startPoint = endpoint;
 			endpoint = newStep;
@@ -34,8 +34,8 @@ function makeStep(map, choosenOption) {
 			if (newStep.x == -1 || newStep.y == -1 || (newStep.x == endpoint.x && newStep.y == endpoint.y)) {
 
 			}
-			else if (newStep.x > (map[0].length - 1) * minimumStep) {
-				newStep.y = map[0].length * minimumStep - 1;
+			else if (newStep.x > (map.level[0].length - 1) * minimumStep) {
+				newStep.y = map.level[0].length * minimumStep - 1;
 			}				
 			else {
 				startPoint = endpoint;
@@ -79,7 +79,7 @@ function stepOut(endpoint, value) {
 };
 
 function getPossibleSteps(map, endpoint, lastStep) {
-	if (map[endpoint.y / minimumStep][endpoint.x / minimumStep] != 0) {
+	if (map.level[endpoint.y / minimumStep][endpoint.x / minimumStep] != 0) {
 		return [
 			{ x: endpoint.x + lastStep.x, y: endpoint.y - lastStep.y + minimumStep },
 			{ x: endpoint.x + lastStep.x - minimumStep, y: endpoint.y - lastStep.y + minimumStep },
@@ -105,7 +105,7 @@ function getPossibleSteps(map, endpoint, lastStep) {
 
 function step(map, endpoint, value, lastStep) {
 	var point = { x: 0, y: 0 };
-	if (map[endpoint.y / minimumStep][endpoint.x / minimumStep] != 0) {
+	if (map.level[endpoint.y / minimumStep][endpoint.x / minimumStep] != 0) {
 		switch (value) {
 		case 1:
 			if (!first) {
