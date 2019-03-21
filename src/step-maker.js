@@ -1,11 +1,9 @@
-var first = null;
-
-if (first == null || first != false)
-	first = true;
+const _firstStepHandler = new FirstStep();
+const _winnerService = new WinnerService();
 
 function makeNextStep(map, chosenOption, settings) {
 	const minimumStep = settings.minimumStep;
-	if (first) {
+	if (_firstStepHandler.isFirst) {
 		startPoint = map.arrowStartPoint;
 		endPoint = map.arrowEndPoint;
 		lastStep = countStep(map.arrowStartPoint, map.arrowEndPoint);
@@ -14,18 +12,14 @@ function makeNextStep(map, chosenOption, settings) {
 			return null;
 		} 
 		else {
-			first = false;
+			_firstStepHandler.makeFirstStep();
 			startPoint = endPoint;
 			endPoint = newStep;
 			lastStep = countStep(startPoint, endPoint);
 		}
 	}
-	else {
-		if (map.level[endPoint.y / minimumStep][endPoint.x / minimumStep] == 2) {
-			$("#winInfoLabel").show();
-			$("#winButton").show();
-		}
-		else if (map.level[endPoint.y / minimumStep][endPoint.x / minimumStep] == 0) {
+	else {		
+		if (map.level[endPoint.y / minimumStep][endPoint.x / minimumStep] == 0) {
 			newStep = countStepOut(endPoint, chosenOption, settings);
 			startPoint = endPoint;
 			endPoint = newStep;
@@ -45,6 +39,9 @@ function makeNextStep(map, chosenOption, settings) {
 				lastStep = countStep(startPoint, endPoint);
 			}
 		}
+	}
+	if (_winnerService.shouldPlayerWin(map, endPoint, minimumStep)) {
+		_winnerService.handlePlayerWin();
 	}
 	return { startPoint: startPoint, endPoint: endPoint };
 }
@@ -113,7 +110,7 @@ function countNextStep(map, endPoint, chosenOption, lastStep, settings) {
 	if (map.level[endPoint.y / minimumStep][endPoint.x / minimumStep] != 0) {
 		switch (chosenOption) {
 			case 1:
-				if (!first) {
+				if (!_firstStepHandler.isFirst) {
 					nextStep = { x: endPoint.x + lastStep.x, y: endPoint.y - lastStep.y + minimumStep };
 				}
 				else {
@@ -145,7 +142,7 @@ function countNextStep(map, endPoint, chosenOption, lastStep, settings) {
 	} else {
 		switch (chosenOption) {
 			case 1:
-				if (!first) {
+				if (!_firstStepHandler.isFirst) {
 					nextStep = { x: endPoint.x, y: endPoint.y + minimumStep };
 				}
 				else {
