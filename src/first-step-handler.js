@@ -1,4 +1,4 @@
-class FirstStep {
+class FirstStepHandler {
 	constructor() {
 	  	this._isFirstStep = true;
 	}
@@ -7,7 +7,7 @@ class FirstStep {
 	  	return this._isFirstStep;
 	}
   
-	makeFirstStep() {
+	setFirstStepAsMade() {
 	  	this._isFirstStep = false;
 	}
 }
