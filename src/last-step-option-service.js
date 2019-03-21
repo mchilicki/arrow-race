@@ -47,4 +47,27 @@ class LastStepOptionService {
             this.getBottomRightPoint(endPoint, lastStep),
         ];
     }
+
+    getByChosenOption(endPoint, lastStep, chosenOption, firstStepHandler) {
+        switch (chosenOption) {
+			case 1:
+				if (!firstStepHandler.isFirst)
+					return this.getBottomPoint(endPoint, lastStep);
+			case 2:
+				return this.getBottomLeftPoint(endPoint, lastStep);
+			case 3:
+				return this.getLeftPoint(endPoint, lastStep);				
+			case 4:
+				return this.getTopLeftPoint(endPoint, lastStep);				
+			case 5:
+				return this.getTopPoint(endPoint, lastStep);				
+			case 6:
+				return this.getTopRightPoint(endPoint, lastStep);				
+			case 7:
+				return this.getRightPoint(endPoint, lastStep);				
+			case 8:
+				return this.getBottomRightPoint(endPoint, lastStep);				
+        }
+        return null;
+    }
 }
