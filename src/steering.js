@@ -42,7 +42,7 @@ function makeMove(map, context, stepsHistory, settings) {
     return function innerOnKeyboardInput(keyboardInput) {
         const chosenOption = getChoosenOption(keyboardInput);
         if (isChosenOptionValid(chosenOption)) {
-            var nextStep = makeNextStep(map, chosenOption, settings);
+            var nextStep = makeNextStep(map, chosenOption, stepsHistory[stepsHistory.length - 1], settings);
             if (isNextStepValid(nextStep, settings)) {
                 stepsHistory.push(nextStep);
                 drawArrow(context, nextStep.startPoint, nextStep.endPoint);
