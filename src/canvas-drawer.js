@@ -38,7 +38,7 @@ function drawPossiblePoints(map, ctx, stepsHistory, settings) {
         x: lastFromToWhere.endPoint.x - lastFromToWhere.startPoint.x,
         y: lastFromToWhere.startPoint.y - lastFromToWhere.endPoint.y
     };
-    var currentPossibleSteps = getPossibleSteps(map, lastFromToWhere.endPoint, lastStepTemp, settings);
+    var currentPossibleSteps = getPossibleEndPoints(map, lastFromToWhere.endPoint, lastStepTemp, settings);
     drawPoints(ctx, currentPossibleSteps, settings.possibleMoveDotSize, settings.possibleMoveDotColor);
 }
 

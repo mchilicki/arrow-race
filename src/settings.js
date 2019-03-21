@@ -6,4 +6,7 @@ const SETTINGS = {
     possibleMoveDotColor: "black",
     offroadDotSize: 2,
     offroadDotColor: "grey",
+    offRoadTileNumber: 0,
+    roadTileNumber: 1,
+    finishLineTileNumber: 2,
 }
