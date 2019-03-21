@@ -1,5 +1,7 @@
 const _firstStepHandler = new FirstStep();
 const _winnerService = new WinnerService();
+const _lastStepOptionService = new LastStepOptionService(SETTINGS.minimumStep);
+const _optionService = new OptionService(SETTINGS.minimumStep);
 
 function makeNextStep(map, chosenOption, settings) {
 	const minimumStep = settings.minimumStep;
@@ -46,28 +48,22 @@ function makeNextStep(map, chosenOption, settings) {
 	return { startPoint: startPoint, endPoint: endPoint };
 }
 
-function countStepOut(endPoint, chosenOption, settings) {
-	var optionService = new OptionService(settings.minimumStep);
-	return optionService.getByChosenOption(endPoint, chosenOption, _firstStepHandler);
+function countStepOut(endPoint, chosenOption) {
+	return _optionService.getByChosenOption(endPoint, chosenOption, _firstStepHandler);
 };
 
 function getPossibleSteps(map, endPoint, lastStep, settings) {
-	const minimumStep = settings.minimumStep;
-	var optionService = new OptionService(settings.minimumStep);
-	var lastStepOptionService = new LastStepOptionService(settings.minimumStep);
-	if (map.level[endPoint.y / minimumStep][endPoint.x / minimumStep] != 0) {
-		return lastStepOptionService.getAllPossiblePoints(endPoint, lastStep);
+	if (map.level[endPoint.y / settings.minimumStep][endPoint.x / settings.minimumStep] != 0) {
+		return _lastStepOptionService.getAllPossiblePoints(endPoint, lastStep);
 	}
-	return optionService.getAllPossiblePoints(endPoint);
+	return _optionService.getAllPossiblePoints(endPoint);
 }
 
-function countNextStep(map, endPoint, chosenOption, lastStep, settings) {
-	const lastStepOptionService = new LastStepOptionService(settings.minimumStep);
-	const optionService = new OptionService(settings.minimumStep);
+function countNextStep(map, endPoint, chosenOption, lastStep, settings) {	
 	if (map.level[endPoint.y / settings.minimumStep][endPoint.x / settings.minimumStep] != 0) {
-		return lastStepOptionService.getByChosenOption(endPoint, lastStep, chosenOption, _firstStepHandler);
+		return _lastStepOptionService.getByChosenOption(endPoint, lastStep, chosenOption, _firstStepHandler);
 	} 
-	return optionService.getByChosenOption(endPoint, chosenOption, _firstStepHandler);
+	return _optionService.getByChosenOption(endPoint, chosenOption, _firstStepHandler);
 };
 
 function countStep(startPoint, endPoint) {
