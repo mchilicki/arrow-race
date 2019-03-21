@@ -1,9 +1,9 @@
 $(document).ready(function () {
-    var canvas = document.getElementById("gridCanvas");
-    var context = canvas.getContext("2d");
+    const canvas = document.getElementById("gridCanvas");
+    const context = canvas.getContext("2d");    
+    const map = mapFirstLevel;
+    const settings = SETTINGS;
     var stepsHistory = [];
-    var map = mapFirstLevel;
-    var settings = SETTINGS;
     startGame(map, context, stepsHistory, settings);
     document.addEventListener("keypress", (makeMove)(map, context, stepsHistory, settings));
 });

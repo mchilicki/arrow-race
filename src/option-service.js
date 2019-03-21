@@ -40,4 +40,28 @@ class OptionService {
     getAllPossiblePoints(endPoint) {
         return this._lastStepOptionService.getAllPossiblePoints(endPoint, this._zeroLastStep);
     }
+
+    getByChosenOption(endPoint, chosenOption, firstStepHandler) {
+        switch (chosenOption) {
+            case 1:
+                if (!firstStepHandler.isFirst) 
+                    return this.getBottomPoint(endPoint);
+                break;
+            case 2:
+                return this.getBottomLeftPoint(endPoint);			 
+            case 3:
+                return this.getLeftPoint(endPoint);			 
+            case 4:
+                return this.getTopLeftPoint(endPoint);			 
+            case 5:
+                return this.getTopPoint(endPoint);			 
+            case 6:
+                return this.getTopRightPoint(endPoint);			 
+            case 7:
+                return this.getRightPoint(endPoint);			 
+            case 8:
+                return this.getBottomRightPoint(endPoint);			 
+        }
+        return null;
+    }
 }

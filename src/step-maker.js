@@ -48,25 +48,7 @@ function makeNextStep(map, chosenOption, settings) {
 
 function countStepOut(endPoint, chosenOption, settings) {
 	var optionService = new OptionService(settings.minimumStep);
-	switch (chosenOption) {
-		case 1:
-			return optionService.getBottomPoint(endPoint);			 
-		case 2:
-			return optionService.getBottomLeftPoint(endPoint);			 
-		case 3:
-			return optionService.getLeftPoint(endPoint);			 
-		case 4:
-			return optionService.getTopLeftPoint(endPoint);			 
-		case 5:
-			return optionService.getTopPoint(endPoint);			 
-		case 6:
-			return optionService.getTopRightPoint(endPoint);			 
-		case 7:
-			return optionService.getRightPoint(endPoint);			 
-		case 8:
-			return optionService.getBottomRightPoint(endPoint);			 
-	}
-	return null;
+	return optionService.getByChosenOption(endPoint, chosenOption, _firstStepHandler);
 };
 
 function getPossibleSteps(map, endPoint, lastStep, settings) {
@@ -83,55 +65,9 @@ function countNextStep(map, endPoint, chosenOption, lastStep, settings) {
 	const lastStepOptionService = new LastStepOptionService(settings.minimumStep);
 	const optionService = new OptionService(settings.minimumStep);
 	if (map.level[endPoint.y / settings.minimumStep][endPoint.x / settings.minimumStep] != 0) {
-		switch (chosenOption) {
-			case 1:
-				if (!_firstStepHandler.isFirst) {
-					return lastStepOptionService.getBottomPoint(endPoint, lastStep);
-				}
-				else {
-					return null;
-				}
-			case 2:
-				return lastStepOptionService.getBottomLeftPoint(endPoint, lastStep);
-			case 3:
-				return lastStepOptionService.getLeftPoint(endPoint, lastStep);				
-			case 4:
-				return lastStepOptionService.getTopLeftPoint(endPoint, lastStep);				
-			case 5:
-				return lastStepOptionService.getTopPoint(endPoint, lastStep);				
-			case 6:
-				return lastStepOptionService.getTopRightPoint(endPoint, lastStep);				
-			case 7:
-				return lastStepOptionService.getRightPoint(endPoint, lastStep);				
-			case 8:
-				return lastStepOptionService.getBottomRightPoint(endPoint, lastStep);				
-		}
-	} else {
-		switch (chosenOption) {
-			case 1:
-				if (!_firstStepHandler.isFirst) {
-					return optionService.getBottomPoint(endPoint);
-				}
-				else {
-					return null;
-				}				
-			case 2:
-				return optionService.getBottomLeftPoint(endPoint);				
-			case 3:
-				return optionService.getLeftPoint(endPoint);				
-			case 4:
-				return optionService.getTopLeftPoint(endPoint);				
-			case 5:
-				return optionService.getTopPoint(endPoint);				
-			case 6:
-				return optionService.getTopRightPoint(endPoint);				
-			case 7:
-				return optionService.getRightPoint(endPoint);				
-			case 8:
-				return optionService.getBottomRightPoint(endPoint);				
-		}
-	}
-	return null;
+		return lastStepOptionService.getByChosenOption(endPoint, lastStep, chosenOption, _firstStepHandler);
+	} 
+	return optionService.getByChosenOption(endPoint, chosenOption, _firstStepHandler);
 };
 
 function countStep(startPoint, endPoint) {
