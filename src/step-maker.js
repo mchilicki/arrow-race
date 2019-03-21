@@ -47,142 +47,93 @@ function makeNextStep(map, chosenOption, settings) {
 }
 
 function countStepOut(endPoint, chosenOption, settings) {
-	const minimumStep = settings.minimumStep;
-	var nextStep = null;
+	var optionService = new OptionService(settings.minimumStep);
 	switch (chosenOption) {
 		case 1:
-			nextStep = { x: endPoint.x, y: endPoint.y + minimumStep };
-			break;
+			return optionService.getBottomPoint(endPoint);			 
 		case 2:
-			nextStep = { x: endPoint.x - minimumStep, y: endPoint.y + minimumStep };
-			break;
+			return optionService.getBottomLeftPoint(endPoint);			 
 		case 3:
-			nextStep = { x: endPoint.x - minimumStep, y: endPoint.y };
-			break;
+			return optionService.getLeftPoint(endPoint);			 
 		case 4:
-			nextStep = { x: endPoint.x - minimumStep, y: endPoint.y - minimumStep };
-			break;
+			return optionService.getTopLeftPoint(endPoint);			 
 		case 5:
-			nextStep = { x: endPoint.x, y: endPoint.y - minimumStep };
-			break;
+			return optionService.getTopPoint(endPoint);			 
 		case 6:
-			nextStep = { x: endPoint.x + minimumStep, y: endPoint.y - minimumStep };
-			break;
+			return optionService.getTopRightPoint(endPoint);			 
 		case 7:
-			nextStep = { x: endPoint.x + minimumStep, y: endPoint.y };
-			break;
+			return optionService.getRightPoint(endPoint);			 
 		case 8:
-			nextStep = { x: endPoint.x + minimumStep, y: endPoint.y + minimumStep };
-			break;
+			return optionService.getBottomRightPoint(endPoint);			 
 	}
-	return nextStep;
+	return null;
 };
 
 function getPossibleSteps(map, endPoint, lastStep, settings) {
 	const minimumStep = settings.minimumStep;
+	var optionService = new OptionService(settings.minimumStep);
+	var lastStepOptionService = new LastStepOptionService(settings.minimumStep);
 	if (map.level[endPoint.y / minimumStep][endPoint.x / minimumStep] != 0) {
-		return [
-			{ x: endPoint.x + lastStep.x, y: endPoint.y - lastStep.y + minimumStep },
-			{ x: endPoint.x + lastStep.x - minimumStep, y: endPoint.y - lastStep.y + minimumStep },
-			{ x: endPoint.x + lastStep.x - minimumStep, y: endPoint.y - lastStep.y },
-			{ x: endPoint.x + lastStep.x - minimumStep, y: endPoint.y - lastStep.y - minimumStep },
-			{ x: endPoint.x + lastStep.x, y: endPoint.y - lastStep.y - minimumStep },
-			{ x: endPoint.x + lastStep.x + minimumStep, y: endPoint.y - lastStep.y - minimumStep },
-			{ x: endPoint.x + lastStep.x + minimumStep, y: endPoint.y - lastStep.y },
-			{ x: endPoint.x + lastStep.x + minimumStep, y: endPoint.y - lastStep.y + minimumStep },
-		]
+		return lastStepOptionService.getAllPossiblePoints(endPoint, lastStep);
 	}
-	return [
-		{ x: endPoint.x, y: endPoint.y + minimumStep },
-		{ x: endPoint.x - minimumStep, y: endPoint.y + minimumStep },
-		{ x: endPoint.x - minimumStep, y: endPoint.y },
-		{ x: endPoint.x - minimumStep, y: endPoint.y - minimumStep },
-		{ x: endPoint.x, y: endPoint.y - minimumStep },
-		{ x: endPoint.x + minimumStep, y: endPoint.y - minimumStep },
-		{ x: endPoint.x + minimumStep, y: endPoint.y },
-		{ x: endPoint.x + minimumStep, y: endPoint.y + minimumStep },
-	]
+	return optionService.getAllPossiblePoints(endPoint);
 }
 
 function countNextStep(map, endPoint, chosenOption, lastStep, settings) {
-	const minimumStep = settings.minimumStep;
-	var nextStep = null;
-	if (map.level[endPoint.y / minimumStep][endPoint.x / minimumStep] != 0) {
+	const lastStepOptionService = new LastStepOptionService(settings.minimumStep);
+	const optionService = new OptionService(settings.minimumStep);
+	if (map.level[endPoint.y / settings.minimumStep][endPoint.x / settings.minimumStep] != 0) {
 		switch (chosenOption) {
 			case 1:
 				if (!_firstStepHandler.isFirst) {
-					nextStep = { x: endPoint.x + lastStep.x, y: endPoint.y - lastStep.y + minimumStep };
+					return lastStepOptionService.getBottomPoint(endPoint, lastStep);
 				}
 				else {
-					nextStep = null;
+					return null;
 				}
-				break;
 			case 2:
-				nextStep = { x: endPoint.x + lastStep.x - minimumStep, y: endPoint.y - lastStep.y + minimumStep };
-				break;
+				return lastStepOptionService.getBottomLeftPoint(endPoint, lastStep);
 			case 3:
-				nextStep = { x: endPoint.x + lastStep.x - minimumStep, y: endPoint.y - lastStep.y };
-				break;
+				return lastStepOptionService.getLeftPoint(endPoint, lastStep);				
 			case 4:
-				nextStep = { x: endPoint.x + lastStep.x - minimumStep, y: endPoint.y - lastStep.y - minimumStep };
-				break;
+				return lastStepOptionService.getTopLeftPoint(endPoint, lastStep);				
 			case 5:
-				nextStep = { x: endPoint.x + lastStep.x, y: endPoint.y - lastStep.y - minimumStep };
-				break;
+				return lastStepOptionService.getTopPoint(endPoint, lastStep);				
 			case 6:
-				nextStep = { x: endPoint.x + lastStep.x + minimumStep, y: endPoint.y - lastStep.y - minimumStep };
-				break;
+				return lastStepOptionService.getTopRightPoint(endPoint, lastStep);				
 			case 7:
-				nextStep = { x: endPoint.x + lastStep.x + minimumStep, y: endPoint.y - lastStep.y };
-				break;
+				return lastStepOptionService.getRightPoint(endPoint, lastStep);				
 			case 8:
-				nextStep = { x: endPoint.x + lastStep.x + minimumStep, y: endPoint.y - lastStep.y + minimumStep };
-				break;
+				return lastStepOptionService.getBottomRightPoint(endPoint, lastStep);				
 		}
 	} else {
 		switch (chosenOption) {
 			case 1:
 				if (!_firstStepHandler.isFirst) {
-					nextStep = { x: endPoint.x, y: endPoint.y + minimumStep };
+					return optionService.getBottomPoint(endPoint);
 				}
 				else {
-					nextStep = null;
-				}
-				break;
+					return null;
+				}				
 			case 2:
-				nextStep = { x: endPoint.x - minimumStep, y: endPoint.y + minimumStep };
-				break;
+				return optionService.getBottomLeftPoint(endPoint);				
 			case 3:
-				nextStep = { x: endPoint.x - minimumStep, y: endPoint.y };
-				break;
+				return optionService.getLeftPoint(endPoint);				
 			case 4:
-				nextStep = { x: endPoint.x - minimumStep, y: endPoint.y - minimumStep };
-				break;
+				return optionService.getTopLeftPoint(endPoint);				
 			case 5:
-				nextStep = { x: endPoint.x, y: endPoint.y - minimumStep };
-				break;
+				return optionService.getTopPoint(endPoint);				
 			case 6:
-				nextStep = { x: endPoint.x + minimumStep, y: endPoint.y - minimumStep };
-				break;
+				return optionService.getTopRightPoint(endPoint);				
 			case 7:
-				nextStep = { x: endPoint.x + minimumStep, y: endPoint.y };
-				break;
+				return optionService.getRightPoint(endPoint);				
 			case 8:
-				nextStep = { x: endPoint.x + minimumStep, y: endPoint.y + minimumStep };
-				break;
+				return optionService.getBottomRightPoint(endPoint);				
 		}
 	}
-	return nextStep;
+	return null;
 };
 
 function countStep(startPoint, endPoint) {
 	return { x: endPoint.x - startPoint.x, y: startPoint.y - endPoint.y };
-}
-
-function getBottomOption() {
-
-}
-
-function getTopLeftOption() {
-
 }
