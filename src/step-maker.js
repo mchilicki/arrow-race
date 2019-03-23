@@ -8,11 +8,7 @@ function makeNextStep(map, chosenOption, lastStep, settings) {
 	var startPoint;
 	var newEndPoint;
 	var endPoint = lastStep.endPoint;
-	// TODO Error in lastStep, its whole step, not point as earlier
 	if (_firstStepHandler.isFirst) {
-		startPoint = map.arrowStartPoint;
-		endPoint = map.arrowEndPoint;
-		lastStep = countNextStep(map.arrowStartPoint, map.arrowEndPoint);
 		newEndPoint = countNextEndPoint(map, chosenOption, lastStep);
 		if (newEndPoint === null) {
 			return null;
@@ -30,11 +26,11 @@ function makeNextStep(map, chosenOption, lastStep, settings) {
 			startPoint = endPoint;
 			endPoint = newEndPoint;
 			lastStep = countNextStep(startPoint, endPoint);
-		} 
+		}
 		else {
 			newEndPoint = countNextEndPoint(map, chosenOption, lastStep);
-			if (newEndPoint === null || (newEndPoint.x == endPoint.x && newEndPoint.y == endPoint.y)) {
-
+			if (newEndPoint === null) {
+				return null;
 			}
 			else if (newEndPoint.x > (map.level[0].length - 1) * settings.minimumStep) {
 				newEndPoint.y = map.level[0].length * settings.minimumStep - 1;
@@ -53,7 +49,7 @@ function makeNextStep(map, chosenOption, lastStep, settings) {
 }
 
 function countNewOutEndPoint(lastStep, chosenOption) {
-	return _optionService.getByChosenOption(lastStep, chosenOption, _firstStepHandler);
+	return _optionService.getByChosenOption(lastStep, chosenOption);
 }
 
 function getPossibleEndPoints(map, lastStep) {
@@ -65,9 +61,9 @@ function getPossibleEndPoints(map, lastStep) {
 
 function countNextEndPoint(map, chosenOption, lastStep) {
 	if (!_tileTypeResolver.isOffRoad(map, lastStep.endPoint)) {
-		return _lastStepOptionService.getByChosenOption(lastStep, lastStep.difference, chosenOption, _firstStepHandler);
+		return _lastStepOptionService.getByChosenOption(lastStep, lastStep.difference, chosenOption);
 	} 
-	return _optionService.getByChosenOption(lastStep, chosenOption, _firstStepHandler);
+	return _optionService.getByChosenOption(lastStep, chosenOption);
 }
 
 function countNextStep(startPoint, endPoint) {

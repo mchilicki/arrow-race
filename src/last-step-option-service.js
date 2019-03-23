@@ -72,26 +72,37 @@ class LastStepOptionService {
         ];
     }
 
-    getByChosenOption(lastStep, difference, chosenOption, firstStepHandler) {
+    getByChosenOption(lastStep, difference, chosenOption) {
+        var returnedEndPoint;
+        const pointService = new PointService();
         switch (chosenOption) {
 			case 1:
-				if (!firstStepHandler.isFirst)
-					return this.getBottomPoint(lastStep, difference);
+                returnedEndPoint = this.getBottomPoint(lastStep, difference);
+                break;
 			case 2:
-				return this.getBottomLeftPoint(lastStep, difference);
+                returnedEndPoint = this.getBottomLeftPoint(lastStep, difference);
+                break;
 			case 3:
-				return this.getLeftPoint(lastStep, difference);				
+                returnedEndPoint = this.getLeftPoint(lastStep, difference);	
+                break;			
 			case 4:
-				return this.getTopLeftPoint(lastStep, difference);				
+                returnedEndPoint = this.getTopLeftPoint(lastStep, difference);
+                break;				
 			case 5:
-				return this.getTopPoint(lastStep, difference);				
+                returnedEndPoint = this.getTopPoint(lastStep, difference);	
+                break;			
 			case 6:
-				return this.getTopRightPoint(lastStep, difference);				
+                returnedEndPoint = this.getTopRightPoint(lastStep, difference);
+                break;				
 			case 7:
-				return this.getRightPoint(lastStep, difference);				
+                returnedEndPoint = this.getRightPoint(lastStep, difference);	
+                break;			
 			case 8:
-				return this.getBottomRightPoint(lastStep, difference);				
+                returnedEndPoint = this.getBottomRightPoint(lastStep, difference);	
+                break;			
         }
-        return null;
+        if (pointService.arePointsEqual(lastStep.endPoint, returnedEndPoint))
+            return null;
+        return returnedEndPoint;
     }
 }
