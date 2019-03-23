@@ -13,7 +13,7 @@ function makeNextStep(map, chosenOption, lastStep, settings) {
 		startPoint = map.arrowStartPoint;
 		endPoint = map.arrowEndPoint;
 		lastStep = countNextStep(map.arrowStartPoint, map.arrowEndPoint);
-		newEndPoint = countNextEndPoint(map, endPoint, chosenOption, lastStep, settings);
+		newEndPoint = countNextEndPoint(map, chosenOption, lastStep);
 		if (newEndPoint === null) {
 			return null;
 		} 
@@ -26,13 +26,13 @@ function makeNextStep(map, chosenOption, lastStep, settings) {
 	}
 	else {		
 		if (_tileTypeResolver.isOffRoad(map, endPoint)) {
-			newEndPoint = countNewOutEndPoint(endPoint, chosenOption, settings);
+			newEndPoint = countNewOutEndPoint(lastStep, chosenOption, settings);
 			startPoint = endPoint;
 			endPoint = newEndPoint;
 			lastStep = countNextStep(startPoint, endPoint);
 		} 
 		else {
-			newEndPoint = countNextEndPoint(map, endPoint, chosenOption, lastStep, settings);
+			newEndPoint = countNextEndPoint(map, chosenOption, lastStep);
 			if (newEndPoint === null || (newEndPoint.x == endPoint.x && newEndPoint.y == endPoint.y)) {
 
 			}
@@ -49,27 +49,34 @@ function makeNextStep(map, chosenOption, lastStep, settings) {
 	if (_winnerService.shouldPlayerWin(map, endPoint)) {
 		_winnerService.handlePlayerWin();
 	}
-	return { startPoint: startPoint, endPoint: endPoint };
+	return lastStep;
 }
 
-function countNewOutEndPoint(endPoint, chosenOption) {
-	return _optionService.getByChosenOption(endPoint, chosenOption, _firstStepHandler);
-};
+function countNewOutEndPoint(lastStep, chosenOption) {
+	return _optionService.getByChosenOption(lastStep, chosenOption, _firstStepHandler);
+}
 
-function getPossibleEndPoints(map, endPoint, lastStep) {
-	if (_tileTypeResolver.isRoad(map, endPoint)) {
-		return _lastStepOptionService.getAllPossiblePoints(endPoint, lastStep);
+function getPossibleEndPoints(map, lastStep) {
+	if (_tileTypeResolver.isRoad(map, lastStep.endPoint)) {
+		return _lastStepOptionService.getAllPossiblePoints(lastStep, lastStep.difference);
 	}
-	return _optionService.getAllPossiblePoints(endPoint);
+	return _optionService.getAllPossiblePoints(lastStep);
 }
 
-function countNextEndPoint(map, endPoint, chosenOption, lastStep, settings) {	
-	if (map.level[endPoint.y / settings.minimumStep][endPoint.x / settings.minimumStep] != 0) {
-		return _lastStepOptionService.getByChosenOption(endPoint, lastStep, chosenOption, _firstStepHandler);
+function countNextEndPoint(map, chosenOption, lastStep) {
+	if (!_tileTypeResolver.isOffRoad(map, lastStep.endPoint)) {
+		return _lastStepOptionService.getByChosenOption(lastStep, lastStep.difference, chosenOption, _firstStepHandler);
 	} 
-	return _optionService.getByChosenOption(endPoint, chosenOption, _firstStepHandler);
-};
+	return _optionService.getByChosenOption(lastStep, chosenOption, _firstStepHandler);
+}
 
 function countNextStep(startPoint, endPoint) {
-	return { x: endPoint.x - startPoint.x, y: startPoint.y - endPoint.y };
+	return { 
+		startPoint: startPoint,
+		endPoint: endPoint,
+		difference: {
+			x: endPoint.x - startPoint.x, 
+			y: startPoint.y - endPoint.y
+		}		 
+	};
 }

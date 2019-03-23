@@ -3,70 +3,94 @@ class LastStepOptionService {
         this._minimumStep = minimumStep;
     }
 
-    getBottomPoint(endPoint, lastStep) {
-        return { x: endPoint.x + lastStep.x, y: endPoint.y - lastStep.y + this._minimumStep };
+    getBottomPoint(lastStep, difference) {
+        return { 
+            x: lastStep.endPoint.x + difference.x, 
+            y: lastStep.endPoint.y - difference.y + this._minimumStep 
+        };
     }
 
-    getBottomLeftPoint(endPoint, lastStep) {
-        return { x: endPoint.x + lastStep.x - this._minimumStep, y: endPoint.y - lastStep.y + this._minimumStep };
+    getBottomLeftPoint(lastStep, difference) {
+        return { 
+            x: lastStep.endPoint.x + difference.x - this._minimumStep, 
+            y: lastStep.endPoint.y - difference.y + this._minimumStep 
+        };
     }
 
-    getLeftPoint(endPoint, lastStep) {
-        return { x: endPoint.x + lastStep.x - this._minimumStep, y: endPoint.y - lastStep.y };
+    getLeftPoint(lastStep, difference) {
+        return { 
+            x: lastStep.endPoint.x + difference.x - this._minimumStep, 
+            y: lastStep.endPoint.y - difference.y
+        };
     }
 
-    getTopLeftPoint(endPoint, lastStep) {
-        return { x: endPoint.x + lastStep.x - this._minimumStep, y: endPoint.y - lastStep.y - this._minimumStep };
+    getTopLeftPoint(lastStep, difference) {
+        return { 
+            x: lastStep.endPoint.x + difference.x - this._minimumStep, 
+            y: lastStep.endPoint.y - difference.y - this._minimumStep 
+        };
     }
 
-    getTopPoint(endPoint, lastStep) {
-        return { x: endPoint.x + lastStep.x, y: endPoint.y - lastStep.y - this._minimumStep };
+    getTopPoint(lastStep, difference) {
+        return { 
+            x: lastStep.endPoint.x + difference.x, 
+            y: lastStep.endPoint.y - difference.y - this._minimumStep 
+        };
     }
 
-    getTopRightPoint(endPoint, lastStep) {
-        return { x: endPoint.x + lastStep.x + this._minimumStep, y: endPoint.y - lastStep.y - this._minimumStep };
+    getTopRightPoint(lastStep, difference) {
+        return { 
+            x: lastStep.endPoint.x + difference.x + this._minimumStep, 
+            y: lastStep.endPoint.y - difference.y - this._minimumStep 
+        };
     }
 
-    getRightPoint(endPoint, lastStep) {
-        return { x: endPoint.x + lastStep.x + this._minimumStep, y: endPoint.y - lastStep.y };
+    getRightPoint(lastStep, difference) {
+        return { 
+            x: lastStep.endPoint.x + difference.x + this._minimumStep, 
+            y: lastStep.endPoint.y - difference.y 
+        };
     }
 
-    getBottomRightPoint(endPoint, lastStep) {
-        return { x: endPoint.x + lastStep.x + this._minimumStep, y: endPoint.y - lastStep.y + this._minimumStep };
+    getBottomRightPoint(lastStep, difference) {
+        return { 
+            x: lastStep.endPoint.x + difference.x + this._minimumStep, 
+            y: lastStep.endPoint.y - difference.y + this._minimumStep 
+        };
     }
 
-    getAllPossiblePoints(endPoint, lastStep) {
+    getAllPossiblePoints(lastStep, difference) {
         return [
-            this.getBottomPoint(endPoint, lastStep),
-            this.getBottomLeftPoint(endPoint, lastStep),
-            this.getLeftPoint(endPoint, lastStep),
-            this.getTopLeftPoint(endPoint, lastStep),
-            this.getTopPoint(endPoint, lastStep),
-            this.getTopRightPoint(endPoint, lastStep),
-            this.getRightPoint(endPoint, lastStep),
-            this.getBottomRightPoint(endPoint, lastStep),
+            this.getBottomPoint(lastStep, difference),
+            this.getBottomLeftPoint(lastStep, difference),
+            this.getLeftPoint(lastStep, difference),
+            this.getTopLeftPoint(lastStep, difference),
+            this.getTopPoint(lastStep, difference),
+            this.getTopRightPoint(lastStep, difference),
+            this.getRightPoint(lastStep, difference),
+            this.getBottomRightPoint(lastStep, difference),
         ];
     }
 
-    getByChosenOption(endPoint, lastStep, chosenOption, firstStepHandler) {
+    getByChosenOption(lastStep, difference, chosenOption, firstStepHandler) {
         switch (chosenOption) {
 			case 1:
 				if (!firstStepHandler.isFirst)
-					return this.getBottomPoint(endPoint, lastStep);
+					return this.getBottomPoint(lastStep, difference);
 			case 2:
-				return this.getBottomLeftPoint(endPoint, lastStep);
+				return this.getBottomLeftPoint(lastStep, difference);
 			case 3:
-				return this.getLeftPoint(endPoint, lastStep);				
+				return this.getLeftPoint(lastStep, difference);				
 			case 4:
-				return this.getTopLeftPoint(endPoint, lastStep);				
+				return this.getTopLeftPoint(lastStep, difference);				
 			case 5:
-				return this.getTopPoint(endPoint, lastStep);				
+				return this.getTopPoint(lastStep, difference);				
 			case 6:
-				return this.getTopRightPoint(endPoint, lastStep);				
+				return this.getTopRightPoint(lastStep, difference);				
 			case 7:
-				return this.getRightPoint(endPoint, lastStep);				
+				return this.getRightPoint(lastStep, difference);				
 			case 8:
-				return this.getBottomRightPoint(endPoint, lastStep);				
+				return this.getBottomRightPoint(lastStep, difference);				
         }
         return null;
     }
