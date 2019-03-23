@@ -28,27 +28,10 @@ function getChoosenOption(keyboardInput) {
     return null;
 }
 
-function isChosenOptionValid(chosenOption) {
-    return chosenOption !== null;
-}
-
-function isNextStepValid(nextStep, settings) {
-    return nextStep !== null && 
-        isNumberBetweenRange(nextStep.endPoint.x, 0, settings.canvasWidth) &&
-        isNumberBetweenRange(nextStep.endPoint.y, 0, settings.canvasHeight);
-}
-
-function makeMove(map, context, stepsHistory, settings) {
+function onKeyboardInput(map, context, stepsHistory, settings) {
     return function innerOnKeyboardInput(keyboardInput) {
         const chosenOption = getChoosenOption(keyboardInput);
-        if (isChosenOptionValid(chosenOption)) {
-            var nextStep = makeNextStep(map, chosenOption, stepsHistory[stepsHistory.length - 1], settings);
-            if (isNextStepValid(nextStep, settings)) {
-                stepsHistory.push(nextStep);
-                drawArrow(context, nextStep.startPoint, nextStep.endPoint);
-                const currentPossibleSteps = getPossibleEndPoints(map, nextStep);
-                drawPoints(context, currentPossibleSteps, settings.possibleMoveDotSize, settings.possibleMoveDotColor);
-            }            
-        }
+        const gameManager = new GameManager();
+        gameManager.makeMove(map, context, stepsHistory, chosenOption, settings);
     }
 }
