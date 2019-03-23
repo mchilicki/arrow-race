@@ -4,17 +4,8 @@ $(document).ready(function () {
     const map = mapFirstLevel;
     const settings = SETTINGS;
     var stepsHistory = [];
-    startGame(map, context, stepsHistory, settings);
-    document.addEventListener("keypress", (makeMove)(map, context, stepsHistory, settings));
+    const gameManager = new GameManager();
+    gameManager.startGame(map, context, stepsHistory, settings);
+    document.addEventListener("keypress", (onKeyboardInput)(map, context, stepsHistory, settings));
 });
 
-function startGame(map, context, stepsHistory, settings) {
-    const firstStep = countNextStep(map.arrowStartPoint, map.arrowEndPoint);
-    stepsHistory.length = 0;   
-    drawGrid(context, settings);
-    drawRoads(context, map, settings);
-    drawArrow(context, firstStep.startPoint, firstStep.endPoint);
-    stepsHistory.push(firstStep);
-    const currentPossibleSteps = getPossibleEndPoints(map, firstStep);
-    drawPoints(context, currentPossibleSteps, settings.possibleMoveDotSize, settings.possibleMoveDotColor);
-}
