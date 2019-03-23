@@ -46,7 +46,8 @@ function makeMove(map, context, stepsHistory, settings) {
             if (isNextStepValid(nextStep, settings)) {
                 stepsHistory.push(nextStep);
                 drawArrow(context, nextStep.startPoint, nextStep.endPoint);
-                drawPossiblePoints(map, context, stepsHistory, settings);
+                const currentPossibleSteps = getPossibleEndPoints(map, nextStep);
+                drawPoints(context, currentPossibleSteps, settings.possibleMoveDotSize, settings.possibleMoveDotColor);
             }            
         }
     }

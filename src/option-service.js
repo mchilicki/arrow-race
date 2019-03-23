@@ -1,67 +1,47 @@
 class OptionService {
     constructor(minimumStep) {
         this._minimumStep = minimumStep;
-        this._zeroLastStep = { x: 0, y: 0 };
+        this._zeroDifference = { x: 0, y: 0 };
         this._lastStepOptionService = new LastStepOptionService(minimumStep);
     }
 
-    getBottomPoint(endPoint) {
-        return this._lastStepOptionService.getBottomPoint(endPoint, this._zeroLastStep);
+    getBottomPoint(lastStep) {
+        return this._lastStepOptionService.getBottomPoint(lastStep, this._zeroDifference);
     }
 
-    getBottomLeftPoint(endPoint) {
-        return this._lastStepOptionService.getBottomLeftPoint(endPoint, this._zeroLastStep);
+    getBottomLeftPoint(lastStep) {
+        return this._lastStepOptionService.getBottomLeftPoint(lastStep, this._zeroDifference);
     }
 
-    getLeftPoint(endPoint) {
-        return this._lastStepOptionService.getLeftPoint(endPoint, this._zeroLastStep);
+    getLeftPoint(lastStep) {
+        return this._lastStepOptionService.getLeftPoint(lastStep, this._zeroDifference);
     }
 
-    getTopLeftPoint(endPoint) {
-        return this._lastStepOptionService.getTopLeftPoint(endPoint, this._zeroLastStep);
+    getTopLeftPoint(lastStep) {
+        return this._lastStepOptionService.getTopLeftPoint(lastStep, this._zeroDifference);
     }
 
-    getTopPoint(endPoint) {
-        return this._lastStepOptionService.getTopPoint(endPoint, this._zeroLastStep);
+    getTopPoint(lastStep) {
+        return this._lastStepOptionService.getTopPoint(lastStep, this._zeroDifference);
     }
 
-    getTopRightPoint(endPoint) {
-        return this._lastStepOptionService.getTopRightPoint(endPoint, this._zeroLastStep);
+    getTopRightPoint(lastStep) {
+        return this._lastStepOptionService.getTopRightPoint(lastStep, this._zeroDifference);
     }
 
-    getRightPoint(endPoint) {
-        return this._lastStepOptionService.getRightPoint(endPoint, this._zeroLastStep);
+    getRightPoint(lastStep) {
+        return this._lastStepOptionService.getRightPoint(lastStep, this._zeroDifference);
     }
 
-    getBottomRightPoint(endPoint) {
-        return this._lastStepOptionService.getBottomRightPoint(endPoint, this._zeroLastStep);
+    getBottomRightPoint(lastStep) {
+        return this._lastStepOptionService.getBottomRightPoint(lastStep, this._zeroDifference);
     }
 
-    getAllPossiblePoints(endPoint) {
-        return this._lastStepOptionService.getAllPossiblePoints(endPoint, this._zeroLastStep);
+    getAllPossiblePoints(lastStep) {
+        return this._lastStepOptionService.getAllPossiblePoints(lastStep, this._zeroDifference);
     }
 
-    getByChosenOption(endPoint, chosenOption, firstStepHandler) {
-        switch (chosenOption) {
-            case 1:
-                if (!firstStepHandler.isFirst) 
-                    return this.getBottomPoint(endPoint);
-                break;
-            case 2:
-                return this.getBottomLeftPoint(endPoint);			 
-            case 3:
-                return this.getLeftPoint(endPoint);			 
-            case 4:
-                return this.getTopLeftPoint(endPoint);			 
-            case 5:
-                return this.getTopPoint(endPoint);			 
-            case 6:
-                return this.getTopRightPoint(endPoint);			 
-            case 7:
-                return this.getRightPoint(endPoint);			 
-            case 8:
-                return this.getBottomRightPoint(endPoint);			 
-        }
-        return null;
+    getByChosenOption(lastStep, chosenOption, firstStepHandler) {
+        return this._lastStepOptionService.getByChosenOption(lastStep, this._zeroDifference, chosenOption, firstStepHandler);
     }
 }

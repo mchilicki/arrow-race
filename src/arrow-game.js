@@ -8,11 +8,13 @@ $(document).ready(function () {
     document.addEventListener("keypress", (makeMove)(map, context, stepsHistory, settings));
 });
 
-function startGame(map, context, stepsHistory, settings) {  
+function startGame(map, context, stepsHistory, settings) {
+    const firstStep = countNextStep(map.arrowStartPoint, map.arrowEndPoint);
     stepsHistory.length = 0;   
     drawGrid(context, settings);
     drawRoads(context, map, settings);
-    drawArrow(context, map.arrowStartPoint, map.arrowEndPoint);
-    stepsHistory.push({ startPoint: map.arrowStartPoint, endPoint: map.arrowEndPoint });
-    drawPossiblePoints(map, context, stepsHistory, settings);
+    drawArrow(context, firstStep.startPoint, firstStep.endPoint);
+    stepsHistory.push(firstStep);
+    const currentPossibleSteps = getPossibleEndPoints(map, firstStep);
+    drawPoints(context, currentPossibleSteps, settings.possibleMoveDotSize, settings.possibleMoveDotColor);
 }

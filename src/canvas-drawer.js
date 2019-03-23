@@ -32,16 +32,6 @@ function drawArrow(context, startPoint, endPoint) {
     context.stroke();
 }
 
-function drawPossiblePoints(map, ctx, stepsHistory, settings) {
-    const lastFromToWhere = stepsHistory[stepsHistory.length - 1];
-    const lastStepTemp = {
-        x: lastFromToWhere.endPoint.x - lastFromToWhere.startPoint.x,
-        y: lastFromToWhere.startPoint.y - lastFromToWhere.endPoint.y
-    };
-    var currentPossibleSteps = getPossibleEndPoints(map, lastFromToWhere.endPoint, lastStepTemp, settings);
-    drawPoints(ctx, currentPossibleSteps, settings.possibleMoveDotSize, settings.possibleMoveDotColor);
-}
-
 function drawRoads(context, map, settings) {
     var pointListToDraw = [];
     for (var row = 0; row < map.level.length; row++) {
