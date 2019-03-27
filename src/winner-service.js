@@ -11,7 +11,7 @@ class WinnerService {
     shouldPlayerWin(map, endPoint) {
         if (this._isPlayerWinner)
             return false;
-        return _tileTypeResolver.isBeyondFinishLine(map, endPoint);
+        return this._tileTypeResolver.isBeyondFinishLine(map, endPoint);
     }
 
     handlePlayerWin() {
