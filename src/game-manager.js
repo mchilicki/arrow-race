@@ -1,29 +1,33 @@
 class GameManager {
     constructor () {
         this._canvasDrawer = new CanvasDrawer();
+        this._stepMaker = new StepMaker(SETTINGS);
     }
 
     startGame(map, context, stepsHistory, settings) {
-        const firstStep = countNextStep(map.arrowStartPoint, map.arrowEndPoint);
+        const firstStep = this._stepMaker.countNextStep(map.arrowStartPoint, map.arrowEndPoint);
         stepsHistory.length = 0;   
         this._canvasDrawer.drawGrid(context, settings);
         this._canvasDrawer.drawRoads(context, map, settings);
         this._canvasDrawer.drawArrow(context, firstStep.startPoint, firstStep.endPoint);
         stepsHistory.push(firstStep);
-        const currentPossibleSteps = getPossibleEndPoints(map, firstStep);
-        this._canvasDrawer.drawPoints(context, currentPossibleSteps, settings.possibleMoveDotSize, settings.possibleMoveDotColor);
+        this._drawPossibleOptions(map, context, firstStep, settings);
     }
     
     makeMove(map, context, stepsHistory, chosenOption, settings) {
         if (this._isChosenOptionValid(chosenOption)) {
-            var nextStep = makeNextStep(map, chosenOption, stepsHistory[stepsHistory.length - 1], settings);
+            var nextStep = this._stepMaker.makeNextStep(map, chosenOption, stepsHistory[stepsHistory.length - 1], settings);
             if (this._isNextStepValid(nextStep, settings)) {
                 stepsHistory.push(nextStep);
                 this._canvasDrawer.drawArrow(context, nextStep.startPoint, nextStep.endPoint);
-                const currentPossibleSteps = getPossibleEndPoints(map, nextStep);
-                this._canvasDrawer.drawPoints(context, currentPossibleSteps, settings.possibleMoveDotSize, settings.possibleMoveDotColor);
+                this._drawPossibleOptions(map, context, nextStep, settings);
             }            
         }
+    }
+
+    _drawPossibleOptions(map, context, step, settings) {
+        const currentPossibleSteps = this._stepMaker.getPossibleEndPoints(map, step);
+        this._canvasDrawer.drawPoints(context, currentPossibleSteps, settings.possibleMoveDotSize, settings.possibleMoveDotColor);
     }
 
     _isChosenOptionValid(chosenOption) {
