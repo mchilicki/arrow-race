@@ -22,8 +22,8 @@ class WinnerService {
 
     handlePlayerWin() {
         this._isPlayerWinner = true;
-        $("#winInfoLabel").show();
-        $("#winButton").show();
+        document.getElementById("winInfo").classList.remove('hidden');
+        document.getElementById("winInfo").classList.add('visible');
     }
 }
 

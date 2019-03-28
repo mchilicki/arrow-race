@@ -1,16 +1,16 @@
 <html>
 
 <head>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src='bundle.js'></script>
 </head>
 
 <body>
     <div id="container">
         <canvas id='gridCanvas'></canvas>
-        <label style="display: none; vertical-align: top;" id='winInfoLabel'>Wygrałeś!</label>
-        <button style="display: none; vertical-align: top;" id='winButton' onclick="window.location.reload();">
-            Zagraj jeszcze raz</button>
+        <div id='winInfo' class='hidden'>
+            <label>Wygrałeś!</label>
+            <button onclick="window.location.reload();">Zagraj jeszcze raz</button>
+        </div>        
     </div>
 </body>
 
