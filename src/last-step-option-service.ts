@@ -1,4 +1,9 @@
+import PointService from "./point-service";
+
 class LastStepOptionService {
+
+    _minimumStep: number;
+
     constructor(minimumStep) {
         this._minimumStep = minimumStep;
     }
@@ -106,3 +111,5 @@ class LastStepOptionService {
         return returnedEndPoint;
     }
 }
+
+export default LastStepOptionService;

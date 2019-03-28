@@ -1,4 +1,15 @@
+import LastStepOptionService from "./last-step-option-service";
+import OptionService from "./option-service";
+import WinnerService from "./winner-service";
+import TileTypeResolver from "./tile-type-resolver";
+
 class StepMaker {
+
+	_winnerService: WinnerService;
+	_lastStepOptionService: LastStepOptionService;
+	_optionService: OptionService;
+	_tileTypeResolver: TileTypeResolver;
+
 	constructor(settings) {
 		this._winnerService = new WinnerService(settings);
 		this._lastStepOptionService = new LastStepOptionService(settings.minimumStep);
@@ -53,3 +64,5 @@ class StepMaker {
 		return this._lastStepOptionService.getByChosenOption(lastStep, lastStep.difference, chosenOption);
 	}	
 }
+
+export default StepMaker;

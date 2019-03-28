@@ -1,7 +1,18 @@
+import SETTINGS from './settings';
+import CanvasDrawer from './canvas-drawer';
+import StepMaker from './step-maker';
+import MathHelper from './utilities/math-helper';
+
 class GameManager {
+
+    _canvasDrawer: CanvasDrawer;
+    _stepMaker: StepMaker;
+    _mathHelper: MathHelper;
+
     constructor () {
         this._canvasDrawer = new CanvasDrawer();
         this._stepMaker = new StepMaker(SETTINGS);
+        this._mathHelper = new MathHelper();
     }
 
     startGame(map, context, stepsHistory, settings) {
@@ -16,7 +27,7 @@ class GameManager {
     
     makeMove(map, context, stepsHistory, chosenOption, settings) {
         if (this._isChosenOptionValid(chosenOption)) {
-            var nextStep = this._stepMaker.makeNextStep(map, chosenOption, stepsHistory[stepsHistory.length - 1], settings);
+            var nextStep = this._stepMaker.makeNextStep(map, chosenOption, stepsHistory[stepsHistory.length - 1]);
             if (this._isNextStepValid(nextStep, settings)) {
                 stepsHistory.push(nextStep);
                 this._canvasDrawer.drawArrow(context, nextStep.startPoint, nextStep.endPoint);
@@ -36,7 +47,9 @@ class GameManager {
     
     _isNextStepValid(nextStep, settings) {
         return nextStep !== null && 
-            isNumberBetweenRange(nextStep.endPoint.x, 0, settings.canvasWidth) &&
-            isNumberBetweenRange(nextStep.endPoint.y, 0, settings.canvasHeight);
+            this._mathHelper.isNumberBetweenRange(nextStep.endPoint.x, 0, settings.canvasWidth) &&
+            this._mathHelper.isNumberBetweenRange(nextStep.endPoint.y, 0, settings.canvasHeight);
     }
 }
+
+export default GameManager

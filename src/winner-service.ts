@@ -1,4 +1,10 @@
+import TileTypeResolver from "./tile-type-resolver";
+
 class WinnerService {
+
+    _isPlayerWinner: boolean;
+    _tileTypeResolver: TileTypeResolver;
+
     constructor(settings) {
         this._isPlayerWinner = false;
         this._tileTypeResolver = new TileTypeResolver(settings);
@@ -20,3 +26,5 @@ class WinnerService {
         $("#winButton").show();
     }
 }
+
+export default WinnerService;

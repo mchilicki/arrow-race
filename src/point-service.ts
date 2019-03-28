@@ -7,3 +7,5 @@ class PointService {
         return firstPoint.x === secondPoint.x && firstPoint.y === secondPoint.y;
     }
 }
+
+export default PointService;

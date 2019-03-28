@@ -1,4 +1,11 @@
+import LastStepOptionService from './last-step-option-service';
+
 class OptionService {
+
+    _minimumStep: number;
+    _zeroDifference: any; // TODO make it Point
+    _lastStepOptionService: LastStepOptionService;
+
     constructor(minimumStep) {
         this._minimumStep = minimumStep;
         this._zeroDifference = { x: 0, y: 0 };
@@ -41,7 +48,9 @@ class OptionService {
         return this._lastStepOptionService.getAllPossiblePoints(lastStep, this._zeroDifference);
     }
 
-    getByChosenOption(lastStep, chosenOption, firstStepHandler) {
-        return this._lastStepOptionService.getByChosenOption(lastStep, this._zeroDifference, chosenOption, firstStepHandler);
+    getByChosenOption(lastStep, chosenOption) {
+        return this._lastStepOptionService.getByChosenOption(lastStep, this._zeroDifference, chosenOption);
     }
 }
+
+export default OptionService;
