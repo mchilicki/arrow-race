@@ -3,6 +3,7 @@ import MAP_FIRST_LEVEL from './maps/level1';
 import GameManager from './game-manager';
 import SteeringService from './steering-service';
 import './scss/styles.scss';
+import 'uikit';
 
 document.addEventListener('DOMContentLoaded', function() {
     const canvas: HTMLCanvasElement = document.getElementById("gridCanvas") as HTMLCanvasElement;
