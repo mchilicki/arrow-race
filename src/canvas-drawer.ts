@@ -9,7 +9,7 @@ class CanvasDrawer {
     
         const gridPattern = this._getGridPattern(settings);
     
-        var DOMURL = window.URL || window.webkitURL || window;
+        var DOMURL = window.URL || (window as any).webkitURL || window;
     
         var image = new Image();
         var svg = new Blob([gridPattern], { type: 'image/svg+xml;charset=utf-8' });
@@ -51,8 +51,8 @@ class CanvasDrawer {
 
     drawPoints(context, pointList, pointSize, pointColor) {
         context.fillStyle = pointColor;
-        for (var i = 0; i < pointList.length; i++) {
-            this._drawPoint(context, pointList[i], pointSize);
+        for (var i = 0; i < pointList.length; i++) {         
+            this._drawPoint(context, pointList[i], pointSize, pointColor);
         }
     }
     
@@ -76,3 +76,5 @@ class CanvasDrawer {
         </svg>';
     }
 }
+
+export default CanvasDrawer

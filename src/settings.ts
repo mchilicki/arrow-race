@@ -10,3 +10,5 @@ const SETTINGS = {
     roadTileNumber: 1,
     finishLineTileNumber: 2,
 }
+
+export default SETTINGS;

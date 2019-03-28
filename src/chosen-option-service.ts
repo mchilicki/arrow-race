@@ -1,4 +1,7 @@
 class ChosenOptionService {
+
+    _numpadKeyboardKeys: Array<number>;
+
     constructor () {
         this._numpadKeyboardKeys = [48, 49, 50, 51, 52, 53, 54, 55, 56, 57];
     }
@@ -31,3 +34,5 @@ class ChosenOptionService {
         return null;
     }
 }
+
+export default ChosenOptionService

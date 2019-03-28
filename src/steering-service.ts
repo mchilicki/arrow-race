@@ -1,3 +1,6 @@
+import ChosenOptionService from './chosen-option-service';
+import GameManager from './game-manager';
+
 class SteeringService {
     constructor() {
         
@@ -12,3 +15,5 @@ class SteeringService {
         }
     }    
 }
+
+export default SteeringService;

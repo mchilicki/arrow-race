@@ -1,4 +1,10 @@
 class TileTypeResolver {
+
+    _roadTileNumber: number;
+    _offRoadTileNumber: number;
+    _finishLineTileNumber: number;
+    _minimumStep: number;
+
     constructor(settings) {
         this._roadTileNumber = settings.roadTileNumber;
         this._offRoadTileNumber = settings.offRoadTileNumber;
@@ -11,14 +17,16 @@ class TileTypeResolver {
     }
 
     isRoad(map, endPoint) {
-        return this._getPointValue(map, endPoint, this._minimumStep) === this._roadTileNumber;
+        return this._getPointValue(map, endPoint) === this._roadTileNumber;
     }
 
     isOffRoad(map, endPoint) {
-        return this._getPointValue(map, endPoint, this._minimumStep) === this._offRoadTileNumber;
+        return this._getPointValue(map, endPoint) === this._offRoadTileNumber;
     }
 
     isBeyondFinishLine(map, endPoint) {
-        return this._getPointValue(map, endPoint, this._minimumStep) === this._finishLineTileNumber;
+        return this._getPointValue(map, endPoint) === this._finishLineTileNumber;
     }
 }
+
+export default TileTypeResolver;

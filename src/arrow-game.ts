@@ -1,7 +1,12 @@
+import SETTINGS from './settings'
+import GameManager from './game-manager';
+import SteeringService from './steering-service';
+import MAP_FIRST_LEVEL from './maps/level1';
+
 $(document).ready(function () {
-    const canvas = document.getElementById("gridCanvas");
+    const canvas: HTMLCanvasElement = document.getElementById("gridCanvas") as HTMLCanvasElement;
     const context = canvas.getContext("2d");    
-    const map = mapFirstLevel;
+    const map = MAP_FIRST_LEVEL;
     const settings = SETTINGS;
     var stepsHistory = [];
     const gameManager = new GameManager();
