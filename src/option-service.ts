@@ -1,56 +1,55 @@
+import { PointDifference } from './models/point-difference';
+import { Point } from './models/point';
+import { Step } from './models/step';
 import LastStepOptionService from './last-step-option-service';
 
-class OptionService {
+export default class OptionService {
 
-    _minimumStep: number;
-    _zeroDifference: any; // TODO make it Point
+    _zeroDifference: PointDifference; 
     _lastStepOptionService: LastStepOptionService;
 
-    constructor(minimumStep) {
-        this._minimumStep = minimumStep;
+    constructor(minimumStep: number) {
         this._zeroDifference = { x: 0, y: 0 };
         this._lastStepOptionService = new LastStepOptionService(minimumStep);
     }
 
-    getBottomPoint(lastStep) {
+    getBottomPoint(lastStep: Step) : Point {
         return this._lastStepOptionService.getBottomPoint(lastStep, this._zeroDifference);
     }
 
-    getBottomLeftPoint(lastStep) {
+    getBottomLeftPoint(lastStep: Step) : Point {
         return this._lastStepOptionService.getBottomLeftPoint(lastStep, this._zeroDifference);
     }
 
-    getLeftPoint(lastStep) {
+    getLeftPoint(lastStep: Step) : Point {
         return this._lastStepOptionService.getLeftPoint(lastStep, this._zeroDifference);
     }
 
-    getTopLeftPoint(lastStep) {
+    getTopLeftPoint(lastStep: Step) : Point {
         return this._lastStepOptionService.getTopLeftPoint(lastStep, this._zeroDifference);
     }
 
-    getTopPoint(lastStep) {
+    getTopPoint(lastStep: Step) : Point {
         return this._lastStepOptionService.getTopPoint(lastStep, this._zeroDifference);
     }
 
-    getTopRightPoint(lastStep) {
+    getTopRightPoint(lastStep: Step) : Point {
         return this._lastStepOptionService.getTopRightPoint(lastStep, this._zeroDifference);
     }
 
-    getRightPoint(lastStep) {
+    getRightPoint(lastStep: Step) : Point {
         return this._lastStepOptionService.getRightPoint(lastStep, this._zeroDifference);
     }
 
-    getBottomRightPoint(lastStep) {
+    getBottomRightPoint(lastStep: Step) : Point {
         return this._lastStepOptionService.getBottomRightPoint(lastStep, this._zeroDifference);
     }
 
-    getAllPossiblePoints(lastStep) {
+    getAllPossiblePoints(lastStep: Step) : Array<Point> {
         return this._lastStepOptionService.getAllPossiblePoints(lastStep, this._zeroDifference);
     }
 
-    getByChosenOption(lastStep, chosenOption) {
+    getByChosenOption(lastStep: Step, chosenOption) : Point {
         return this._lastStepOptionService.getByChosenOption(lastStep, this._zeroDifference, chosenOption);
     }
 }
-
-export default OptionService;

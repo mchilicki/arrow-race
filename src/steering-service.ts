@@ -1,12 +1,13 @@
+import { Map } from './models/map';
 import ChosenOptionService from './chosen-option-service';
 import GameManager from './game-manager';
 
-class SteeringService {
+export default class SteeringService {
     constructor() {
         
     }
 
-    onKeyboardInput(map, context, stepsHistory, settings) {
+    onKeyboardInput(map: Map, context: CanvasRenderingContext2D, stepsHistory, settings) {
         return function innerOnKeyboardInput(keyboardInput) {
             const chosenOptionService = new ChosenOptionService();
             const gameManager = new GameManager();
@@ -15,5 +16,3 @@ class SteeringService {
         }
     }    
 }
-
-export default SteeringService;

@@ -1,9 +1,12 @@
-class CanvasDrawer {
+import { Map } from './models/map';
+import { Point } from './models/point';
+
+export default class CanvasDrawer {
     constructor () {
 
     }
 
-    drawGrid(context, settings) {
+    drawGrid(context: CanvasRenderingContext2D, settings) {
         context.canvas.width = settings.canvasWidth;
         context.canvas.height = settings.canvasHeight;
     
@@ -22,7 +25,7 @@ class CanvasDrawer {
         image.src = url;
     }
     
-    drawArrow(context, startPoint, endPoint) {
+    drawArrow(context: CanvasRenderingContext2D, startPoint: Point, endPoint: Point) {
         const headLenght = 8;
         const angle = Math.atan2(endPoint.y - startPoint.y, endPoint.x - startPoint.x);
         context.beginPath();
@@ -37,7 +40,7 @@ class CanvasDrawer {
         context.stroke();
     }
     
-    drawRoads(context, map, settings) {
+    drawRoads(context: CanvasRenderingContext2D, map: Map, settings) {
         var pointListToDraw = [];
         for (var row = 0; row < map.level.length; row++) {
             for (var column = 0; column < map.level[0].length; column++) {
@@ -49,14 +52,14 @@ class CanvasDrawer {
         this.drawPoints(context, pointListToDraw, settings.offroadDotSize, settings.offroadDotColor);
     }
 
-    drawPoints(context, pointList, pointSize, pointColor) {
+    drawPoints(context: CanvasRenderingContext2D, pointList: Array<Point>, pointSize: number, pointColor: string) {
         context.fillStyle = pointColor;
         for (var i = 0; i < pointList.length; i++) {         
             this._drawPoint(context, pointList[i], pointSize, pointColor);
         }
     }
     
-    _drawPoint(context, pointCoordinates, pointSize, pointColor) {
+    _drawPoint(context: CanvasRenderingContext2D, pointCoordinates: Point, pointSize: number, pointColor: string) {
         context.fillStyle = pointColor;
         context.fillRect(pointCoordinates.x - pointSize / 2, pointCoordinates.y - pointSize / 2, pointSize, pointSize);
     }
@@ -76,5 +79,3 @@ class CanvasDrawer {
         </svg>';
     }
 }
-
-export default CanvasDrawer

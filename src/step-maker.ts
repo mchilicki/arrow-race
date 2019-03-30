@@ -1,9 +1,12 @@
+import { Point } from './models/point';
+import { Step } from './models/step';
+import { Map } from "./models/map";
 import LastStepOptionService from "./last-step-option-service";
 import OptionService from "./option-service";
 import WinnerService from "./winner-service";
 import TileTypeResolver from "./tile-type-resolver";
 
-class StepMaker {
+export default class StepMaker {
 
 	_winnerService: WinnerService;
 	_lastStepOptionService: LastStepOptionService;
@@ -17,7 +20,7 @@ class StepMaker {
 		this._tileTypeResolver = new TileTypeResolver(settings);
 	}
 
-	makeNextStep(map, chosenOption, lastStep) {
+	makeNextStep(map: Map, chosenOption, lastStep: Step) : Step {
 		var newEndPoint = this._countEndPointByTileType(map, lastStep, chosenOption);
 		if (newEndPoint === null) {
 			return null;
@@ -30,14 +33,14 @@ class StepMaker {
 		return lastStep;
 	}
 
-	getPossibleEndPoints(map, lastStep) {
+	getPossibleEndPoints(map: Map, lastStep: Step) : Array<Point> {
 		if (this._tileTypeResolver.isRoad(map, lastStep.endPoint)) {
 			return this._lastStepOptionService.getAllPossiblePoints(lastStep, lastStep.difference);
 		}
 		return this._optionService.getAllPossiblePoints(lastStep);
 	}
 
-	countNextStep(startPoint, endPoint) {
+	countNextStep(startPoint: Point, endPoint: Point) : Step {
 		return { 
 			startPoint: startPoint,
 			endPoint: endPoint,
@@ -48,7 +51,7 @@ class StepMaker {
 		};
 	}
 	
-	_countEndPointByTileType(map, lastStep, chosenOption) {
+	_countEndPointByTileType(map: Map, lastStep: Step, chosenOption) : Point {
 		if (this._tileTypeResolver.isRoad(map, lastStep.endPoint)) 
 			return this._countNextEndPoint(lastStep, chosenOption);
 		else if (this._tileTypeResolver.isOffRoad(map, lastStep.endPoint))
@@ -56,13 +59,11 @@ class StepMaker {
 		return null;
 	}
 	
-	_countNewOutEndPoint(lastStep, chosenOption) {
+	_countNewOutEndPoint(lastStep: Step, chosenOption) : Point {
 		return this._optionService.getByChosenOption(lastStep, chosenOption);
 	}
 	
-	_countNextEndPoint(lastStep, chosenOption) {
+	_countNextEndPoint(lastStep: Step, chosenOption) : Point {
 		return this._lastStepOptionService.getByChosenOption(lastStep, lastStep.difference, chosenOption);
 	}	
 }
-
-export default StepMaker;
