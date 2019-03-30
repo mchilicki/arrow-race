@@ -1,3 +1,5 @@
+import { ChosenOption } from './models/chosen-option.enum';
+import { Settings } from './models/settings';
 import { Point } from './models/point';
 import { Step } from './models/step';
 import { Map } from "./models/map";
@@ -13,14 +15,14 @@ export default class StepMaker {
 	_optionService: OptionService;
 	_tileTypeResolver: TileTypeResolver;
 
-	constructor(settings) {
+	constructor(settings: Settings) {
 		this._winnerService = new WinnerService(settings);
 		this._lastStepOptionService = new LastStepOptionService(settings.minimumStep);
 		this._optionService = new OptionService(settings.minimumStep);
 		this._tileTypeResolver = new TileTypeResolver(settings);
 	}
 
-	makeNextStep(map: Map, chosenOption, lastStep: Step) : Step {
+	makeNextStep(map: Map, chosenOption: ChosenOption, lastStep: Step) : Step {
 		var newEndPoint = this._countEndPointByTileType(map, lastStep, chosenOption);
 		if (newEndPoint === null) {
 			return null;
@@ -51,7 +53,7 @@ export default class StepMaker {
 		};
 	}
 	
-	_countEndPointByTileType(map: Map, lastStep: Step, chosenOption) : Point {
+	_countEndPointByTileType(map: Map, lastStep: Step, chosenOption: ChosenOption) : Point {
 		if (this._tileTypeResolver.isRoad(map, lastStep.endPoint)) 
 			return this._countNextEndPoint(lastStep, chosenOption);
 		else if (this._tileTypeResolver.isOffRoad(map, lastStep.endPoint))
@@ -59,11 +61,11 @@ export default class StepMaker {
 		return null;
 	}
 	
-	_countNewOutEndPoint(lastStep: Step, chosenOption) : Point {
+	_countNewOutEndPoint(lastStep: Step, chosenOption: ChosenOption) : Point {
 		return this._optionService.getByChosenOption(lastStep, chosenOption);
 	}
 	
-	_countNextEndPoint(lastStep: Step, chosenOption) : Point {
+	_countNextEndPoint(lastStep: Step, chosenOption: ChosenOption) : Point {
 		return this._lastStepOptionService.getByChosenOption(lastStep, lastStep.difference, chosenOption);
 	}	
 }

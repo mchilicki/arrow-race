@@ -1,3 +1,4 @@
+import { Settings } from './models/settings';
 import { Map } from './models/map';
 import { Point } from './models/point';
 
@@ -6,7 +7,7 @@ export default class CanvasDrawer {
 
     }
 
-    drawGrid(context: CanvasRenderingContext2D, settings) {
+    drawGrid(context: CanvasRenderingContext2D, settings: Settings) {
         context.canvas.width = settings.canvasWidth;
         context.canvas.height = settings.canvasHeight;
     
@@ -40,7 +41,7 @@ export default class CanvasDrawer {
         context.stroke();
     }
     
-    drawRoads(context: CanvasRenderingContext2D, map: Map, settings) {
+    drawRoads(context: CanvasRenderingContext2D, map: Map, settings: Settings) {
         var pointListToDraw = [];
         for (var row = 0; row < map.level.length; row++) {
             for (var column = 0; column < map.level[0].length; column++) {
@@ -64,7 +65,7 @@ export default class CanvasDrawer {
         context.fillRect(pointCoordinates.x - pointSize / 2, pointCoordinates.y - pointSize / 2, pointSize, pointSize);
     }
     
-    _getGridPattern(settings) {
+    _getGridPattern(settings: Settings) {
         return '<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"> \
             <defs> \
                 <pattern id="smallGrid" width="' + settings.minimumStep + '" height="' + settings.minimumStep + '" patternUnits="userSpaceOnUse"> \

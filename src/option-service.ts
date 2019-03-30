@@ -1,3 +1,4 @@
+import { ChosenOption } from './models/chosen-option.enum';
 import { PointDifference } from './models/point-difference';
 import { Point } from './models/point';
 import { Step } from './models/step';
@@ -49,7 +50,7 @@ export default class OptionService {
         return this._lastStepOptionService.getAllPossiblePoints(lastStep, this._zeroDifference);
     }
 
-    getByChosenOption(lastStep: Step, chosenOption) : Point {
+    getByChosenOption(lastStep: Step, chosenOption: ChosenOption) : Point {
         return this._lastStepOptionService.getByChosenOption(lastStep, this._zeroDifference, chosenOption);
     }
 }

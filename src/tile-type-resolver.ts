@@ -1,3 +1,4 @@
+import { Settings } from './models/settings';
 import { Point } from './models/point';
 import { Map } from './models/map';
 
@@ -8,7 +9,7 @@ export default class TileTypeResolver {
     _finishLineTileNumber: number;
     _minimumStep: number;
 
-    constructor(settings) {
+    constructor(settings: Settings) {
         this._roadTileNumber = settings.roadTileNumber;
         this._offRoadTileNumber = settings.offRoadTileNumber;
         this._finishLineTileNumber = settings.finishLineTileNumber;
