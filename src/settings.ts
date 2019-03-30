@@ -1,4 +1,6 @@
-const SETTINGS = {
+import { Settings } from './models/settings';
+
+const SETTINGS: Settings = {
     canvasWidth: 800,
     canvasHeight: 600,
     minimumStep: 20,

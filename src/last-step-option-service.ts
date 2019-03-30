@@ -1,3 +1,4 @@
+import { ChosenOption } from './models/chosen-option.enum';
 import { Step } from './models/step';
 import { PointDifference } from './models/point-difference';
 import { Point } from './models/point';
@@ -80,7 +81,7 @@ export default class LastStepOptionService {
         ];
     }
 
-    getByChosenOption(lastStep: Step, difference: PointDifference, chosenOption) : Point {
+    getByChosenOption(lastStep: Step, difference: PointDifference, chosenOption: ChosenOption) : Point {
         var returnedEndPoint: Point;
         const pointService = new PointService();
         switch (chosenOption) {

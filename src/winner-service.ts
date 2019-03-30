@@ -1,3 +1,4 @@
+import { Settings } from './models/settings';
 import { Point } from './models/point';
 import { Map } from './models/map';
 import TileTypeResolver from "./tile-type-resolver";
@@ -7,7 +8,7 @@ export default class WinnerService {
     _isPlayerWinner: boolean;
     _tileTypeResolver: TileTypeResolver;
 
-    constructor(settings) {
+    constructor(settings: Settings) {
         this._isPlayerWinner = false;
         this._tileTypeResolver = new TileTypeResolver(settings);
     }
