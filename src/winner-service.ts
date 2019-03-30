@@ -1,6 +1,8 @@
+import { Point } from './models/point';
+import { Map } from './models/map';
 import TileTypeResolver from "./tile-type-resolver";
 
-class WinnerService {
+export default class WinnerService {
 
     _isPlayerWinner: boolean;
     _tileTypeResolver: TileTypeResolver;
@@ -10,11 +12,11 @@ class WinnerService {
         this._tileTypeResolver = new TileTypeResolver(settings);
     }
     
-    get isPlayerWinner() {
+    get isPlayerWinner() : boolean {
         return this._isPlayerWinner;
     }
 
-    shouldPlayerWin(map, endPoint) {
+    shouldPlayerWin(map: Map, endPoint: Point) : boolean {
         if (this._isPlayerWinner)
             return false;
         return this._tileTypeResolver.isBeyondFinishLine(map, endPoint);
@@ -26,5 +28,3 @@ class WinnerService {
         document.getElementById("winInfo").classList.add('visible');
     }
 }
-
-export default WinnerService;

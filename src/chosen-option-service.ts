@@ -1,4 +1,4 @@
-class ChosenOptionService {
+export default class ChosenOptionService {
 
     _numpadKeyboardKeys: Array<number>;
 
@@ -6,7 +6,7 @@ class ChosenOptionService {
         this._numpadKeyboardKeys = [48, 49, 50, 51, 52, 53, 54, 55, 56, 57];
     }
 
-    getChoosenOption(keyboardInput) {
+    getChoosenOption(keyboardInput: KeyboardEvent) {
         if (keyboardInput.keyCode === this._numpadKeyboardKeys[2]) {
             return 1;
         }
@@ -34,5 +34,3 @@ class ChosenOptionService {
         return null;
     }
 }
-
-export default ChosenOptionService

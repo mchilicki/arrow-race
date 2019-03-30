@@ -1,4 +1,7 @@
-class TileTypeResolver {
+import { Point } from './models/point';
+import { Map } from './models/map';
+
+export default class TileTypeResolver {
 
     _roadTileNumber: number;
     _offRoadTileNumber: number;
@@ -12,21 +15,19 @@ class TileTypeResolver {
         this._minimumStep = settings.minimumStep;
     }
 
-    _getPointValue(map, endPoint) {
+    _getPointValue(map: Map, endPoint: Point) : number {
         return map.level[endPoint.y / this._minimumStep][endPoint.x / this._minimumStep];
     }
 
-    isRoad(map, endPoint) {
+    isRoad(map: Map, endPoint: Point) : boolean {
         return this._getPointValue(map, endPoint) === this._roadTileNumber;
     }
 
-    isOffRoad(map, endPoint) {
+    isOffRoad(map: Map, endPoint: Point) : boolean {
         return this._getPointValue(map, endPoint) === this._offRoadTileNumber;
     }
 
-    isBeyondFinishLine(map, endPoint) {
+    isBeyondFinishLine(map: Map, endPoint: Point) : boolean {
         return this._getPointValue(map, endPoint) === this._finishLineTileNumber;
     }
 }
-
-export default TileTypeResolver;

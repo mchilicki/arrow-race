@@ -1,4 +1,4 @@
-class MathHelper {
+export default class MathHelper {
     constructor() {
         
     }
@@ -7,5 +7,3 @@ class MathHelper {
         return number >= minimum && number <= maximum;
     }
 }
-
-export default MathHelper
