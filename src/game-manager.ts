@@ -6,6 +6,7 @@ import SETTINGS from './settings';
 import CanvasDrawer from './canvas-drawer';
 import StepMaker from './step-maker';
 import MathHelper from './utilities/math-helper';
+import StepsHistory from './models/steps-history';
 
 export default class GameManager {
 
@@ -19,21 +20,21 @@ export default class GameManager {
         this._mathHelper = new MathHelper();
     }
 
-    startGame(map: Map, context: CanvasRenderingContext2D, stepsHistory, settings: Settings) {
-        const firstStep = this._stepMaker.countNextStep(map.arrowStartPoint, map.arrowEndPoint);
-        stepsHistory.length = 0;   
+    startGame(map: Map, context: CanvasRenderingContext2D, stepsHistory: StepsHistory, settings: Settings) {
+        const firstStep: Step = this._stepMaker.countNextStep(map.arrowStartPoint, map.arrowEndPoint);
+        stepsHistory.clear();  
         this._canvasDrawer.drawGrid(context, settings);
         this._canvasDrawer.drawRoads(context, map, settings);
         this._canvasDrawer.drawArrow(context, firstStep.startPoint, firstStep.endPoint);
-        stepsHistory.push(firstStep);
+        stepsHistory.insertNewStep(firstStep);
         this._drawPossibleOptions(map, context, firstStep, settings);
     }
     
-    makeMove(map: Map, context: CanvasRenderingContext2D, stepsHistory, chosenOption: ChosenOption, settings: Settings) {
+    makeMove(map: Map, context: CanvasRenderingContext2D, stepsHistory: StepsHistory, chosenOption: ChosenOption, settings: Settings) {
         if (this._isChosenOptionValid(chosenOption)) {
-            var nextStep = this._stepMaker.makeNextStep(map, chosenOption, stepsHistory[stepsHistory.length - 1]);
+            var nextStep = this._stepMaker.makeNextStep(map, chosenOption, stepsHistory.getLastStep());
             if (this._isNextStepValid(nextStep, settings)) {
-                stepsHistory.push(nextStep);
+                stepsHistory.insertNewStep(nextStep);
                 this._canvasDrawer.drawArrow(context, nextStep.startPoint, nextStep.endPoint);
                 this._drawPossibleOptions(map, context, nextStep, settings);
             }            
