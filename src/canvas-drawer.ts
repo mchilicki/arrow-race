@@ -7,6 +7,10 @@ export default class CanvasDrawer {
 
     }
 
+    clearCanvas(context: CanvasRenderingContext2D, settings: Settings) {
+        context.clearRect(0, 0, settings.canvasWidth, settings.canvasHeight);
+    }
+
     drawGrid(context: CanvasRenderingContext2D, settings: Settings) {
         context.canvas.width = settings.canvasWidth;
         context.canvas.height = settings.canvasHeight;
@@ -60,12 +64,12 @@ export default class CanvasDrawer {
         }
     }
     
-    _drawPoint(context: CanvasRenderingContext2D, pointCoordinates: Point, pointSize: number, pointColor: string) {
+    private _drawPoint(context: CanvasRenderingContext2D, pointCoordinates: Point, pointSize: number, pointColor: string) {
         context.fillStyle = pointColor;
         context.fillRect(pointCoordinates.x - pointSize / 2, pointCoordinates.y - pointSize / 2, pointSize, pointSize);
     }
     
-    _getGridPattern(settings: Settings) {
+    private _getGridPattern(settings: Settings) {
         return '<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"> \
             <defs> \
                 <pattern id="smallGrid" width="' + settings.minimumStep + '" height="' + settings.minimumStep + '" patternUnits="userSpaceOnUse"> \

@@ -28,4 +28,10 @@ export default class WinnerService {
         document.getElementById("winInfo").classList.remove('hidden');
         document.getElementById("winInfo").classList.add('visible');
     }
+
+    hidePlayerWinInfo() {
+        this._isPlayerWinner = false;
+        document.getElementById("winInfo").classList.remove('visible');
+        document.getElementById("winInfo").classList.add('hidden');
+    }
 }
