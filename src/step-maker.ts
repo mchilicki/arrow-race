@@ -10,10 +10,10 @@ import TileTypeResolver from "./tile-type-resolver";
 
 export default class StepMaker {
 
-	_winnerService: WinnerService;
-	_lastStepOptionService: LastStepOptionService;
-	_optionService: OptionService;
-	_tileTypeResolver: TileTypeResolver;
+	private _winnerService: WinnerService;
+	private _lastStepOptionService: LastStepOptionService;
+	private _optionService: OptionService;
+	private _tileTypeResolver: TileTypeResolver;
 
 	constructor(settings: Settings) {
 		this._winnerService = new WinnerService(settings);
@@ -53,7 +53,7 @@ export default class StepMaker {
 		};
 	}
 	
-	_countEndPointByTileType(map: Map, lastStep: Step, chosenOption: ChosenOption) : Point {
+	private _countEndPointByTileType(map: Map, lastStep: Step, chosenOption: ChosenOption) : Point {
 		if (this._tileTypeResolver.isRoad(map, lastStep.endPoint)) 
 			return this._countNextEndPoint(lastStep, chosenOption);
 		else if (this._tileTypeResolver.isOffRoad(map, lastStep.endPoint))
@@ -61,11 +61,11 @@ export default class StepMaker {
 		return null;
 	}
 	
-	_countNewOutEndPoint(lastStep: Step, chosenOption: ChosenOption) : Point {
+	private _countNewOutEndPoint(lastStep: Step, chosenOption: ChosenOption) : Point {
 		return this._optionService.getByChosenOption(lastStep, chosenOption);
 	}
 	
-	_countNextEndPoint(lastStep: Step, chosenOption: ChosenOption) : Point {
+	private _countNextEndPoint(lastStep: Step, chosenOption: ChosenOption) : Point {
 		return this._lastStepOptionService.getByChosenOption(lastStep, lastStep.difference, chosenOption);
 	}	
 }

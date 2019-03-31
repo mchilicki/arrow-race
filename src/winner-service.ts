@@ -5,8 +5,8 @@ import TileTypeResolver from "./tile-type-resolver";
 
 export default class WinnerService {
 
-    _isPlayerWinner: boolean;
-    _tileTypeResolver: TileTypeResolver;
+    private _isPlayerWinner: boolean;
+    private _tileTypeResolver: TileTypeResolver;
 
     constructor(settings: Settings) {
         this._isPlayerWinner = false;

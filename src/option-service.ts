@@ -6,8 +6,8 @@ import LastStepOptionService from './last-step-option-service';
 
 export default class OptionService {
 
-    _zeroDifference: PointDifference; 
-    _lastStepOptionService: LastStepOptionService;
+    private _zeroDifference: PointDifference; 
+    private _lastStepOptionService: LastStepOptionService;
 
     constructor(minimumStep: number) {
         this._zeroDifference = { x: 0, y: 0 };

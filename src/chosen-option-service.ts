@@ -2,7 +2,7 @@ import { ChosenOption } from './models/chosen-option.enum';
 
 export default class ChosenOptionService {
 
-    _numpadKeyboardKeys: Array<number>;
+    private _numpadKeyboardKeys: Array<number>;
 
     constructor () {
         this._numpadKeyboardKeys = [48, 49, 50, 51, 52, 53, 54, 55, 56, 57];

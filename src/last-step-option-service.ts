@@ -6,7 +6,7 @@ import PointService from "./point-service";
 
 export default class LastStepOptionService {
 
-    _minimumStep: number;
+    private _minimumStep: number;
 
     constructor(minimumStep: number) {
         this._minimumStep = minimumStep;
