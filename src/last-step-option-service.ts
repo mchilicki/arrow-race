@@ -1,65 +1,74 @@
-class LastStepOptionService {
-    constructor(minimumStep) {
+import { ChosenOption } from './models/chosen-option.enum';
+import { Step } from './models/step';
+import { PointDifference } from './models/point-difference';
+import { Point } from './models/point';
+import PointService from "./point-service";
+
+export default class LastStepOptionService {
+
+    private _minimumStep: number;
+
+    constructor(minimumStep: number) {
         this._minimumStep = minimumStep;
     }
 
-    getBottomPoint(lastStep, difference) {
+    getBottomPoint(lastStep: Step, difference: PointDifference) : Point {
         return { 
             x: lastStep.endPoint.x + difference.x, 
             y: lastStep.endPoint.y - difference.y + this._minimumStep 
         };
     }
 
-    getBottomLeftPoint(lastStep, difference) {
+    getBottomLeftPoint(lastStep: Step, difference: PointDifference) : Point {
         return { 
             x: lastStep.endPoint.x + difference.x - this._minimumStep, 
             y: lastStep.endPoint.y - difference.y + this._minimumStep 
         };
     }
 
-    getLeftPoint(lastStep, difference) {
+    getLeftPoint(lastStep: Step, difference: PointDifference) : Point {
         return { 
             x: lastStep.endPoint.x + difference.x - this._minimumStep, 
             y: lastStep.endPoint.y - difference.y
         };
     }
 
-    getTopLeftPoint(lastStep, difference) {
+    getTopLeftPoint(lastStep: Step, difference: PointDifference) : Point {
         return { 
             x: lastStep.endPoint.x + difference.x - this._minimumStep, 
             y: lastStep.endPoint.y - difference.y - this._minimumStep 
         };
     }
 
-    getTopPoint(lastStep, difference) {
+    getTopPoint(lastStep: Step, difference: PointDifference) : Point {
         return { 
             x: lastStep.endPoint.x + difference.x, 
             y: lastStep.endPoint.y - difference.y - this._minimumStep 
         };
     }
 
-    getTopRightPoint(lastStep, difference) {
+    getTopRightPoint(lastStep: Step, difference: PointDifference) : Point {
         return { 
             x: lastStep.endPoint.x + difference.x + this._minimumStep, 
             y: lastStep.endPoint.y - difference.y - this._minimumStep 
         };
     }
 
-    getRightPoint(lastStep, difference) {
+    getRightPoint(lastStep: Step, difference: PointDifference) : Point {
         return { 
             x: lastStep.endPoint.x + difference.x + this._minimumStep, 
             y: lastStep.endPoint.y - difference.y 
         };
     }
 
-    getBottomRightPoint(lastStep, difference) {
+    getBottomRightPoint(lastStep: Step, difference: PointDifference) : Point {
         return { 
             x: lastStep.endPoint.x + difference.x + this._minimumStep, 
             y: lastStep.endPoint.y - difference.y + this._minimumStep 
         };
     }
 
-    getAllPossiblePoints(lastStep, difference) {
+    getAllPossiblePoints(lastStep: Step, difference: PointDifference) : Array<Point> {
         return [
             this.getBottomPoint(lastStep, difference),
             this.getBottomLeftPoint(lastStep, difference),
@@ -72,32 +81,32 @@ class LastStepOptionService {
         ];
     }
 
-    getByChosenOption(lastStep, difference, chosenOption) {
-        var returnedEndPoint;
+    getByChosenOption(lastStep: Step, difference: PointDifference, chosenOption: ChosenOption) : Point {
+        var returnedEndPoint: Point;
         const pointService = new PointService();
         switch (chosenOption) {
-			case 1:
+			case ChosenOption.Bottom:
                 returnedEndPoint = this.getBottomPoint(lastStep, difference);
                 break;
-			case 2:
+			case ChosenOption.BottomLeft:
                 returnedEndPoint = this.getBottomLeftPoint(lastStep, difference);
                 break;
-			case 3:
+			case ChosenOption.Left:
                 returnedEndPoint = this.getLeftPoint(lastStep, difference);	
                 break;			
-			case 4:
+			case ChosenOption.TopLeft:
                 returnedEndPoint = this.getTopLeftPoint(lastStep, difference);
                 break;				
-			case 5:
+			case ChosenOption.Top:
                 returnedEndPoint = this.getTopPoint(lastStep, difference);	
                 break;			
-			case 6:
+			case ChosenOption.TopRight:
                 returnedEndPoint = this.getTopRightPoint(lastStep, difference);
                 break;				
-			case 7:
+			case ChosenOption.Right:
                 returnedEndPoint = this.getRightPoint(lastStep, difference);	
                 break;			
-			case 8:
+			case ChosenOption.BottomRight:
                 returnedEndPoint = this.getBottomRightPoint(lastStep, difference);	
                 break;			
         }
