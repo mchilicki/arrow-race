@@ -16,5 +16,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const gameManager = new GameManager();
     const steeringService = new SteeringService();
     gameManager.startGame(map, context, stepsHistory, settings);
+    document.getElementById("reloadButton").onclick = () => gameManager.startGame(map, context, stepsHistory, settings);
     document.addEventListener("keypress", (steeringService.onKeyboardInput)(map, context, stepsHistory, settings)); 
 });
