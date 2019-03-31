@@ -77,14 +77,14 @@ export default class LastStepOptionService {
 
     getAllPossiblePoints(map: Map, lastStep: Step, difference: PointDifference) : Array<PossiblePoint> {
         const possiblePoints: Array<PossiblePoint> = [
-            { point: this.getBottomPoint(lastStep, difference), tileType: TileType.Road },
-            { point: this.getBottomLeftPoint(lastStep, difference), tileType: TileType.Road },
-            { point: this.getLeftPoint(lastStep, difference), tileType: TileType.Road },
-            { point: this.getTopLeftPoint(lastStep, difference), tileType: TileType.Road },
-            { point: this.getTopPoint(lastStep, difference), tileType: TileType.Road },
-            { point: this.getTopRightPoint(lastStep, difference), tileType: TileType.Road },
-            { point: this.getRightPoint(lastStep, difference), tileType: TileType.Road },
-            { point: this.getBottomRightPoint(lastStep, difference), tileType: TileType.Road },
+            { point: this.getBottomPoint(lastStep, difference), tileType: null },
+            { point: this.getBottomLeftPoint(lastStep, difference), tileType: null },
+            { point: this.getLeftPoint(lastStep, difference), tileType: null },
+            { point: this.getTopLeftPoint(lastStep, difference), tileType: null },
+            { point: this.getTopPoint(lastStep, difference), tileType: null },
+            { point: this.getTopRightPoint(lastStep, difference), tileType: null },
+            { point: this.getRightPoint(lastStep, difference), tileType: null },
+            { point: this.getBottomRightPoint(lastStep, difference), tileType: null },
         ];
         possiblePoints.forEach(possiblePoint => {
             possiblePoint.tileType = this._tileTypeResolver.getTileType(map, possiblePoint.point);
