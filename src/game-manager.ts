@@ -10,9 +10,9 @@ import StepsHistory from './models/steps-history';
 
 export default class GameManager {
 
-    _canvasDrawer: CanvasDrawer;
-    _stepMaker: StepMaker;
-    _mathHelper: MathHelper;
+    private _canvasDrawer: CanvasDrawer;
+    private _stepMaker: StepMaker;
+    private _mathHelper: MathHelper;
 
     constructor () {
         this._canvasDrawer = new CanvasDrawer();
@@ -41,16 +41,16 @@ export default class GameManager {
         }
     }
 
-    _drawPossibleOptions(map: Map, context: CanvasRenderingContext2D, step: Step, settings: Settings) {
+    private _drawPossibleOptions(map: Map, context: CanvasRenderingContext2D, step: Step, settings: Settings) {
         const currentPossibleSteps = this._stepMaker.getPossibleEndPoints(map, step);
         this._canvasDrawer.drawPoints(context, currentPossibleSteps, settings.possibleMoveDotSize, settings.possibleMoveDotColor);
     }
 
-    _isChosenOptionValid(chosenOption: ChosenOption) {
+    private _isChosenOptionValid(chosenOption: ChosenOption) {
         return chosenOption !== null;
     }
     
-    _isNextStepValid(nextStep: Step, settings: Settings) {
+    private _isNextStepValid(nextStep: Step, settings: Settings) {
         return nextStep !== null && 
             this._mathHelper.isNumberBetweenRange(nextStep.endPoint.x, 0, settings.canvasWidth) &&
             this._mathHelper.isNumberBetweenRange(nextStep.endPoint.y, 0, settings.canvasHeight);
