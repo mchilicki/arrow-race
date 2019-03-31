@@ -1,15 +1,22 @@
+import { TileType } from './models/tile-type.enum';
+import { Map } from './models/map';
+import { PossiblePoint } from './models/possible-point';
 import { ChosenOption } from './models/chosen-option.enum';
 import { Step } from './models/step';
 import { PointDifference } from './models/point-difference';
 import { Point } from './models/point';
 import PointService from "./point-service";
+import TileTypeResolver from './tile-type-resolver';
+import SETTINGS from './settings';
 
 export default class LastStepOptionService {
 
     private _minimumStep: number;
+    private _tileTypeResolver: TileTypeResolver;
 
     constructor(minimumStep: number) {
         this._minimumStep = minimumStep;
+        this._tileTypeResolver = new TileTypeResolver(SETTINGS);
     }
 
     getBottomPoint(lastStep: Step, difference: PointDifference) : Point {
@@ -68,17 +75,21 @@ export default class LastStepOptionService {
         };
     }
 
-    getAllPossiblePoints(lastStep: Step, difference: PointDifference) : Array<Point> {
-        return [
-            this.getBottomPoint(lastStep, difference),
-            this.getBottomLeftPoint(lastStep, difference),
-            this.getLeftPoint(lastStep, difference),
-            this.getTopLeftPoint(lastStep, difference),
-            this.getTopPoint(lastStep, difference),
-            this.getTopRightPoint(lastStep, difference),
-            this.getRightPoint(lastStep, difference),
-            this.getBottomRightPoint(lastStep, difference),
+    getAllPossiblePoints(map: Map, lastStep: Step, difference: PointDifference) : Array<PossiblePoint> {
+        const possiblePoints: Array<PossiblePoint> = [
+            { point: this.getBottomPoint(lastStep, difference), tileType: TileType.Road },
+            { point: this.getBottomLeftPoint(lastStep, difference), tileType: TileType.Road },
+            { point: this.getLeftPoint(lastStep, difference), tileType: TileType.Road },
+            { point: this.getTopLeftPoint(lastStep, difference), tileType: TileType.Road },
+            { point: this.getTopPoint(lastStep, difference), tileType: TileType.Road },
+            { point: this.getTopRightPoint(lastStep, difference), tileType: TileType.Road },
+            { point: this.getRightPoint(lastStep, difference), tileType: TileType.Road },
+            { point: this.getBottomRightPoint(lastStep, difference), tileType: TileType.Road },
         ];
+        possiblePoints.forEach(possiblePoint => {
+            possiblePoint.tileType = this._tileTypeResolver.getTileType(map, possiblePoint.point);
+        });
+        return possiblePoints;
     }
 
     getByChosenOption(lastStep: Step, difference: PointDifference, chosenOption: ChosenOption) : Point {

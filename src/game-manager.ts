@@ -1,3 +1,4 @@
+import { PossiblePoint } from './models/possible-point';
 import { Point } from './models/point';
 import { Settings } from './models/settings';
 import { ChosenOption } from './models/chosen-option.enum';
@@ -9,6 +10,7 @@ import StepMaker from './step-maker';
 import MathHelper from './utilities/math-helper';
 import StepsHistory from './models/steps-history';
 import WinnerService from './winner-service';
+import { TileType } from './models/tile-type.enum';
 
 export default class GameManager {
 
@@ -47,8 +49,19 @@ export default class GameManager {
     }
 
     private _drawPossibleOptions(map: Map, context: CanvasRenderingContext2D, step: Step, settings: Settings) {
-        const currentPossiblePoints: Array<Point> = this._stepMaker.getPossibleEndPoints(map, step);
-        this._canvasDrawer.drawPoints(context, currentPossiblePoints, settings.possibleMoveDotSize, settings.possibleMoveDotColor);
+        const allPossiblePoints: Array<PossiblePoint> = this._stepMaker.getPossibleEndPoints(map, step);
+        const roadPoints = allPossiblePoints
+            .filter(possiblePoint => possiblePoint.tileType === TileType.Road)
+            .map(possiblePoint => possiblePoint.point);
+        const offRoadPoints = allPossiblePoints
+            .filter(possiblePoint => possiblePoint.tileType === TileType.OffRoad)
+            .map(possiblePoint => possiblePoint.point);
+        const finishLinePoints = allPossiblePoints
+            .filter(possiblePoint => possiblePoint.tileType === TileType.FinishLine)
+            .map(possiblePoint => possiblePoint.point);
+        this._canvasDrawer.drawPoints(context, roadPoints, settings.possibleMoveDotSize, settings.roadMoveDotColor);
+        this._canvasDrawer.drawPoints(context, offRoadPoints, settings.possibleMoveDotSize, settings.offRoadMoveDotColor);
+        this._canvasDrawer.drawPoints(context, finishLinePoints, settings.possibleMoveDotSize, settings.finishLineMoveDotColor);
     }
 
     private _isChosenOptionValid(chosenOption: ChosenOption) {

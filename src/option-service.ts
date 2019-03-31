@@ -1,3 +1,5 @@
+import { Map } from './models/map';
+import { PossiblePoint } from './models/possible-point';
 import { ChosenOption } from './models/chosen-option.enum';
 import { PointDifference } from './models/point-difference';
 import { Point } from './models/point';
@@ -46,8 +48,8 @@ export default class OptionService {
         return this._lastStepOptionService.getBottomRightPoint(lastStep, this._zeroDifference);
     }
 
-    getAllPossiblePoints(lastStep: Step) : Array<Point> {
-        return this._lastStepOptionService.getAllPossiblePoints(lastStep, this._zeroDifference);
+    getAllPossiblePoints(map: Map, lastStep: Step) : Array<PossiblePoint> {
+        return this._lastStepOptionService.getAllPossiblePoints(map, lastStep, this._zeroDifference);
     }
 
     getByChosenOption(lastStep: Step, chosenOption: ChosenOption) : Point {

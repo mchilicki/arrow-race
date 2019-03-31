@@ -1,3 +1,4 @@
+import { PossiblePoint } from './models/possible-point';
 import { ChosenOption } from './models/chosen-option.enum';
 import { Settings } from './models/settings';
 import { Point } from './models/point';
@@ -35,11 +36,11 @@ export default class StepMaker {
 		return lastStep;
 	}
 
-	getPossibleEndPoints(map: Map, lastStep: Step) : Array<Point> {
+	getPossibleEndPoints(map: Map, lastStep: Step) : Array<PossiblePoint> {
 		if (this._tileTypeResolver.isRoad(map, lastStep.endPoint)) {
-			return this._lastStepOptionService.getAllPossiblePoints(lastStep, lastStep.difference);
+			return this._lastStepOptionService.getAllPossiblePoints(map, lastStep, lastStep.difference);
 		}
-		return this._optionService.getAllPossiblePoints(lastStep);
+		return this._optionService.getAllPossiblePoints(map, lastStep);
 	}
 
 	countNextStep(startPoint: Point, endPoint: Point) : Step {
