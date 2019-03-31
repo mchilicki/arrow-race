@@ -1,17 +1,37 @@
+import { Step } from './models/step';
 import { Settings } from './models/settings';
 import { Map } from './models/map';
 import { Point } from './models/point';
+import StepsHistory from './models/steps-history';
 
 export default class CanvasDrawer {
     constructor () {
 
     }
 
-    clearCanvas(context: CanvasRenderingContext2D, settings: Settings) {
+    redrawMap(context: CanvasRenderingContext2D, map: Map, settings: Settings) {
+        this._clearCanvas(context, settings);
+        this._drawGrid(context, settings);
+        this._drawRoads(context, map, settings);
+    }
+
+    drawArrows(context: CanvasRenderingContext2D, stepHistory: StepsHistory) {
+        const steps = stepHistory.getHistory();
+        steps.forEach(step => this._drawArrow(context, step));
+    }    
+
+    drawPoints(context: CanvasRenderingContext2D, pointList: Array<Point>, pointSize: number, pointColor: string) {
+        context.fillStyle = pointColor;
+        for (var i = 0; i < pointList.length; i++) {         
+            this._drawPoint(context, pointList[i], pointSize, pointColor);
+        }
+    }
+
+    private _clearCanvas(context: CanvasRenderingContext2D, settings: Settings) {
         context.clearRect(0, 0, settings.canvasWidth, settings.canvasHeight);
     }
 
-    drawGrid(context: CanvasRenderingContext2D, settings: Settings) {
+    private _drawGrid(context: CanvasRenderingContext2D, settings: Settings) {
         context.canvas.width = settings.canvasWidth;
         context.canvas.height = settings.canvasHeight;
     
@@ -28,9 +48,23 @@ export default class CanvasDrawer {
             DOMURL.revokeObjectURL(url);
         }
         image.src = url;
-    }
+    }       
     
-    drawArrow(context: CanvasRenderingContext2D, startPoint: Point, endPoint: Point) {
+    private _drawRoads(context: CanvasRenderingContext2D, map: Map, settings: Settings) {
+        var pointListToDraw = [];
+        for (var row = 0; row < map.level.length; row++) {
+            for (var column = 0; column < map.level[0].length; column++) {
+                if (map.level[row][column] == 0) {
+                    pointListToDraw.push({ x: column * settings.minimumStep, y: row * settings.minimumStep });
+                }
+            }
+        }
+        this.drawPoints(context, pointListToDraw, settings.offroadDotSize, settings.offroadDotColor);
+    }    
+
+    private _drawArrow(context: CanvasRenderingContext2D, step: Step) {
+        const startPoint = step.startPoint;
+        const endPoint = step.endPoint;
         const headLenght = 8;
         const angle = Math.atan2(endPoint.y - startPoint.y, endPoint.x - startPoint.x);
         context.beginPath();
@@ -43,25 +77,6 @@ export default class CanvasDrawer {
         context.lineTo(endPoint.x - headLenght * Math.cos(angle + Math.PI / 6), 
                        endPoint.y - headLenght * Math.sin(angle + Math.PI / 6));
         context.stroke();
-    }
-    
-    drawRoads(context: CanvasRenderingContext2D, map: Map, settings: Settings) {
-        var pointListToDraw = [];
-        for (var row = 0; row < map.level.length; row++) {
-            for (var column = 0; column < map.level[0].length; column++) {
-                if (map.level[row][column] == 0) {
-                    pointListToDraw.push({ x: column * settings.minimumStep, y: row * settings.minimumStep });
-                }
-            }
-        }
-        this.drawPoints(context, pointListToDraw, settings.offroadDotSize, settings.offroadDotColor);
-    }
-
-    drawPoints(context: CanvasRenderingContext2D, pointList: Array<Point>, pointSize: number, pointColor: string) {
-        context.fillStyle = pointColor;
-        for (var i = 0; i < pointList.length; i++) {         
-            this._drawPoint(context, pointList[i], pointSize, pointColor);
-        }
     }
     
     private _drawPoint(context: CanvasRenderingContext2D, pointCoordinates: Point, pointSize: number, pointColor: string) {

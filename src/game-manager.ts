@@ -26,13 +26,11 @@ export default class GameManager {
 
     startGame(map: Map, context: CanvasRenderingContext2D, stepsHistory: StepsHistory, settings: Settings) {
         const firstStep: Step = this._stepMaker.countNextStep(map.arrowStartPoint, map.arrowEndPoint);
-        this._canvasDrawer.clearCanvas(context, settings);
         this._winnerService.hidePlayerWinInfo();
         stepsHistory.clear();  
-        this._canvasDrawer.drawGrid(context, settings);
-        this._canvasDrawer.drawRoads(context, map, settings);
-        this._canvasDrawer.drawArrow(context, firstStep.startPoint, firstStep.endPoint);
-        stepsHistory.insertNewStep(firstStep);
+        this._canvasDrawer.redrawMap(context, map, settings);  
+        stepsHistory.insertNewStep(firstStep);      
+        this._canvasDrawer.drawArrows(context, stepsHistory);        
         this._drawPossibleOptions(map, context, firstStep, settings);
     }
     
@@ -40,8 +38,9 @@ export default class GameManager {
         if (this._isChosenOptionValid(chosenOption)) {
             var nextStep: Step = this._stepMaker.makeNextStep(map, chosenOption, stepsHistory.getLastStep());
             if (this._isNextStepValid(nextStep, settings)) {
+                this._canvasDrawer.redrawMap(context, map, settings);
                 stepsHistory.insertNewStep(nextStep);
-                this._canvasDrawer.drawArrow(context, nextStep.startPoint, nextStep.endPoint);
+                this._canvasDrawer.drawArrows(context, stepsHistory);
                 this._drawPossibleOptions(map, context, nextStep, settings);
             }            
         }

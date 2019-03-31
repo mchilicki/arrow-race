@@ -8,6 +8,10 @@ export default class StepsHistory {
 
     }
 
+    getHistory() {
+        return this._history;
+    }
+
     insertNewStep(newStep: Step) {
         this._history.push(newStep);
     }
