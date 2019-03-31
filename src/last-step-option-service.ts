@@ -85,28 +85,28 @@ export default class LastStepOptionService {
         var returnedEndPoint: Point;
         const pointService = new PointService();
         switch (chosenOption) {
-			case 1:
+			case ChosenOption.Bottom:
                 returnedEndPoint = this.getBottomPoint(lastStep, difference);
                 break;
-			case 2:
+			case ChosenOption.BottomLeft:
                 returnedEndPoint = this.getBottomLeftPoint(lastStep, difference);
                 break;
-			case 3:
+			case ChosenOption.Left:
                 returnedEndPoint = this.getLeftPoint(lastStep, difference);	
                 break;			
-			case 4:
+			case ChosenOption.TopLeft:
                 returnedEndPoint = this.getTopLeftPoint(lastStep, difference);
                 break;				
-			case 5:
+			case ChosenOption.Top:
                 returnedEndPoint = this.getTopPoint(lastStep, difference);	
                 break;			
-			case 6:
+			case ChosenOption.TopRight:
                 returnedEndPoint = this.getTopRightPoint(lastStep, difference);
                 break;				
-			case 7:
+			case ChosenOption.Right:
                 returnedEndPoint = this.getRightPoint(lastStep, difference);	
                 break;			
-			case 8:
+			case ChosenOption.BottomRight:
                 returnedEndPoint = this.getBottomRightPoint(lastStep, difference);	
                 break;			
         }
